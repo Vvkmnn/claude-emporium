@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "SessionStart": [{
+      "matcher": "*",
+      "hooks": [{
+        "type": "command",
+        "command": "node ${CLAUDE_PLUGIN_ROOT}/plugins/claude-praetorian/hooks/session-start.js"
+      }],
+      "description": "Prompt to restore previous context at session start"
+    }],
+    "PreCompact": [{
+      "matcher": "*",
+      "hooks": [{
+        "type": "command",
+        "command": "node ${CLAUDE_PLUGIN_ROOT}/plugins/claude-praetorian/hooks/pre-compact.js"
+      }],
+      "description": "Prompt to save context before compaction"
+    }],
+    "PostToolUse": [{
+      "matcher": "WebFetch|Task",
+      "hooks": [{
+        "type": "command",
+        "command": "node ${CLAUDE_PLUGIN_ROOT}/plugins/claude-praetorian/hooks/post-tool-use.js"
+      }],
+      "description": "Remind to compact after research or subagent completion"
+    }]
+  }
+}

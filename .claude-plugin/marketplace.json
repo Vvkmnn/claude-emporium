@@ -1,0 +1,14 @@
+{
+  "name": "claude-agora",
+  "description": "Community marketplace for Claude Code plugins",
+  "plugins": [
+    {
+      "name": "claude-praetorian",
+      "description": "Automatic context preservation hooks for praetorian MCP",
+      "path": "./plugins/claude-praetorian",
+      "requires": {
+        "mcp": "claude-praetorian-mcp"
+      }
+    }
+  ]
+}

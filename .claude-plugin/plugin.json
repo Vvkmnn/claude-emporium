@@ -1,0 +1,11 @@
+{
+  "name": "claude-agora",
+  "version": "0.1.0",
+  "description": "Community marketplace for Claude Code plugins - wrappers that enhance standalone MCPs",
+  "author": { "name": "v" },
+  "repository": "https://github.com/v/claude-agora",
+  "license": "MIT",
+  "skills": ["./plugins/*/skills/"],
+  "commands": ["./plugins/*/commands/"],
+  "agents": []
+}
