@@ -16,11 +16,13 @@ process.stdin.on('end', () => {
     // For now, always prompt - better safe than sorry
     console.log(JSON.stringify({
       hookSpecificOutput: {
-        additionalContext: `<system-reminder>⚜️ Context compaction imminent.
+        additionalContext: `<system-reminder>⚜️ [claude-praetorian] Context compaction imminent - SAVE NOW.
 
-REQUIRED: If valuable work exists in current context, call praetorian_compact() NOW to preserve it before context resets.
-
-Types: web_research, task_result, file_reads, decisions</system-reminder>`
+Call praetorian_compact() immediately to preserve valuable work before context resets:
+- type: "decisions" → architectural choices, trade-offs made
+- type: "file_reads" → codebase patterns, key file locations
+- type: "task_result" → subagent findings, exploration results
+- type: "web_research" → API docs, external research</system-reminder>`
       }
     }));
   } catch (e) {
@@ -33,7 +35,7 @@ setTimeout(() => {
   if (!input) {
     console.log(JSON.stringify({
       hookSpecificOutput: {
-        additionalContext: `<system-reminder>⚜️ Context compaction imminent. Consider praetorian_compact() to preserve work.</system-reminder>`
+        additionalContext: `<system-reminder>⚜️ [claude-praetorian] Context compaction imminent. Call praetorian_compact() to preserve work.</system-reminder>`
       }
     }));
   }

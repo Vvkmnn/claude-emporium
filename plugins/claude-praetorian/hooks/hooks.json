@@ -4,25 +4,43 @@
       "matcher": "*",
       "hooks": [{
         "type": "command",
-        "command": "node ${CLAUDE_PLUGIN_ROOT}/plugins/claude-praetorian/hooks/session-start.js"
+        "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/session-start.js"
       }],
-      "description": "Prompt to restore previous context at session start"
+      "description": "Show available compactions at session start"
     }],
     "PreCompact": [{
       "matcher": "*",
       "hooks": [{
         "type": "command",
-        "command": "node ${CLAUDE_PLUGIN_ROOT}/plugins/claude-praetorian/hooks/pre-compact.js"
+        "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/pre-compact.js"
       }],
       "description": "Prompt to save context before compaction"
     }],
-    "PostToolUse": [{
-      "matcher": "WebFetch|Task",
+    "PostToolUse": [
+      {
+        "matcher": "WebFetch|WebSearch|Task",
+        "hooks": [{
+          "type": "command",
+          "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/post-research.js"
+        }],
+        "description": "Prompt to compact after research or subagent completion"
+      },
+      {
+        "matcher": "Read|Grep|Glob",
+        "hooks": [{
+          "type": "command",
+          "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/post-exploration.js"
+        }],
+        "description": "Track file exploration, prompt compact after significant reads"
+      }
+    ],
+    "Stop": [{
+      "matcher": "*",
       "hooks": [{
         "type": "command",
-        "command": "node ${CLAUDE_PLUGIN_ROOT}/plugins/claude-praetorian/hooks/post-tool-use.js"
+        "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/session-end.js"
       }],
-      "description": "Remind to compact after research or subagent completion"
+      "description": "Prompt to save session insights before ending"
     }]
   }
 }

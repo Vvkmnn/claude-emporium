@@ -1,11 +1,8 @@
 {
   "name": "claude-agora",
   "version": "0.1.0",
-  "description": "Community marketplace for Claude Code plugins - wrappers that enhance standalone MCPs",
-  "author": { "name": "v" },
-  "repository": "https://github.com/v/claude-agora",
-  "license": "MIT",
-  "skills": ["./plugins/*/skills/"],
-  "commands": ["./plugins/*/commands/"],
-  "agents": []
+  "description": "@vvkmnn's marketplace for Claude Code plugins - Roma Victrix",
+  "author": { "name": "vvkmnn" },
+  "repository": "https://github.com/vvkmnn/claude-agora",
+  "license": "MIT"
 }

@@ -1,11 +1,16 @@
 {
   "name": "claude-agora",
-  "description": "Community marketplace for Claude Code plugins",
+  "description": "@vvkmnn's marketplace for Claude Code plugins - Roma Victrix",
+  "owner": { "name": "vvkmnn" },
   "plugins": [
     {
       "name": "claude-praetorian",
-      "description": "Automatic context preservation hooks for praetorian MCP",
-      "path": "./plugins/claude-praetorian",
+      "description": "Automatic context preservation hooks for praetorian MCP (saves 50-60% tokens)",
+      "version": "1.0.0",
+      "source": "./plugins/claude-praetorian",
+      "author": { "name": "vvkmnn" },
+      "category": "productivity",
+      "homepage": "https://github.com/vvkmnn/claude-agora/tree/main/plugins/claude-praetorian",
       "requires": {
         "mcp": "claude-praetorian-mcp"
       }

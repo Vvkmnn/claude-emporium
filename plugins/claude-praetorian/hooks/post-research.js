@@ -23,11 +23,18 @@ process.stdin.on('end', () => {
     const prompts = {
       WebFetch: {
         type: 'web_research',
-        message: 'Web research completed. Consider saving findings.'
+        message: 'Web research completed - save findings to preserve ~200 tokens.',
+        hint: 'Extract: key facts, URLs, code snippets'
+      },
+      WebSearch: {
+        type: 'web_research',
+        message: 'Web search completed - save findings to preserve ~200 tokens.',
+        hint: 'Extract: key facts, source URLs, relevant quotes'
       },
       Task: {
         type: 'task_result',
-        message: 'Subagent completed. Consider preserving insights.'
+        message: 'Subagent completed - save insights to preserve ~300 tokens.',
+        hint: 'Extract: findings, file:line refs, decisions'
       }
     };
 
@@ -35,9 +42,10 @@ process.stdin.on('end', () => {
     if (config) {
       console.log(JSON.stringify({
         hookSpecificOutput: {
-          additionalContext: `<system-reminder>⚜️ ${config.message}
+          additionalContext: `<system-reminder>⚜️ [claude-praetorian] ${config.message}
 
-Consider: praetorian_compact(type="${config.type}", title="<topic>", key_insights=[...])</system-reminder>`
+praetorian_compact(type="${config.type}", title="<topic>", key_insights=[...], refs=[...])
+${config.hint}</system-reminder>`
         }
       }));
     }
