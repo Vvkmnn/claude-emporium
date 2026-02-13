@@ -1,22 +1,22 @@
 ---
-name: historian
+name: historian-search
 description: Search your conversation history
 arguments: query
 ---
 
-# /historian
+# /historian-search
 
 Search past Claude sessions for solutions, decisions, and context.
 
 ## Usage
 
-`/historian <query>`
+`/historian-search <query>`
 
 ## Examples
 
-- `/historian auth implementation` - Find auth-related work
-- `/historian "module not found"` - Find error solutions
-- `/historian package.json` - Find file changes
+- `/historian-search auth implementation` - Find auth-related work
+- `/historian-search "module not found"` - Find error solutions
+- `/historian-search package.json` - Find file changes
 
 ## Action
 

@@ -32,12 +32,12 @@ All notifications appear as: `📜 [claude-historian] ...`
 
 ## Command
 
-`/historian <query>` - Search your conversation history
+`/historian-search <query>` - Search your conversation history
 
 Examples:
-- `/historian auth implementation` - Find auth-related work
-- `/historian "module not found"` - Find error solutions
-- `/historian package.json` - Find file changes
+- `/historian-search auth implementation` - Find auth-related work
+- `/historian-search "module not found"` - Find error solutions
+- `/historian-search package.json` - Find file changes
 
 ## Requirements
 
