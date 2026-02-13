@@ -36,8 +36,9 @@ Wraps `claude-praetorian-mcp` with:
 - **PostToolUse**: Reminds to compact after WebFetch/Task
 
 **Commands:**
-- `/compact` - Save current context
-- `/restore` - Load previous context
+- `/praetorian-compact` - Save current context
+- `/praetorian-restore` - Load previous context
+- `/praetorian-search` - Search past context
 
 ## Architecture
 

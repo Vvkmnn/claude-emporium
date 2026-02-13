@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 90" width="140" height="126">
+  <style>
+    .screen-glow {
+      animation: glow 2s ease-in-out infinite;
+    }
+    .cursor {
+      animation: blink 1s step-end infinite;
+    }
+    .model-badge {
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes glow {
+      0%, 100% { opacity: 0.15; }
+      50% { opacity: 0.25; }
+    }
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+  </style>
+
+  <!-- Shadow (matching Claude's shadow position) -->
+  <ellipse cx="60" cy="82" rx="28" ry="5" fill="#000" opacity="0.25"/>
+
+  <!-- Monitor Stand -->
+  <rect x="48" y="68" width="24" height="5" fill="#4a4a4a"/>
+  <rect x="40" y="73" width="40" height="4" rx="2" fill="#3a3a3a"/>
+
+  <!-- Monitor Frame -->
+  <rect x="8" y="8" width="104" height="60" rx="5" fill="#2d2d2d"/>
+  <rect x="11" y="11" width="98" height="54" rx="3" fill="#1a1a1a"/>
+
+  <!-- Screen Glow Effect -->
+  <rect class="screen-glow" x="11" y="11" width="98" height="54" rx="3" fill="#E07C4C"/>
+
+  <!-- Terminal Content Area -->
+  <rect x="14" y="14" width="92" height="48" fill="#0d0d0d"/>
+
+  <!-- Terminal Header Bar -->
+  <rect x="14" y="14" width="92" height="9" fill="#1f1f1f"/>
+  <circle cx="20" cy="18.5" r="2" fill="#ff5f56"/>
+  <circle cx="27" cy="18.5" r="2" fill="#ffbd2e"/>
+  <circle cx="34" cy="18.5" r="2" fill="#27ca40"/>
+  <text x="60" y="20" font-family="monospace" font-size="4" fill="#888" text-anchor="middle">claude-code</text>
+
+  <!-- Terminal Lines -->
+  <text x="18" y="30" font-family="monospace" font-size="4" fill="#666">$</text>
+  <text x="23" y="30" font-family="monospace" font-size="4" fill="#aaa">claude</text>
+
+  <text x="18" y="37" font-family="monospace" font-size="4" fill="#27ca40">></text>
+  <text x="23" y="37" font-family="monospace" font-size="4" fill="#888">Ready to assist...</text>
+
+  <!-- Blinking Cursor -->
+  <rect class="cursor" x="18" y="42" width="3" height="4" fill="#E07C4C"/>
+
+  <!-- Status Line Background -->
+  <rect x="14" y="52" width="92" height="10" fill="#1a1a1a"/>
+
+  <!-- Status Line Divider -->
+  <rect x="14" y="52" width="92" height="1" fill="#333"/>
+
+  <!-- Model Badge (Blinking) -->
+  <rect class="model-badge" x="17" y="54" width="34" height="6" rx="2" fill="#E07C4C"/>
+  <text class="model-badge" x="34" y="59" font-family="monospace" font-size="4" fill="#fff" text-anchor="middle" font-weight="bold">Opus 4.5</text>
+
+  <!-- Context Info -->
+  <rect x="54" y="54" width="24" height="6" rx="2" fill="#3a3a3a"/>
+  <text x="66" y="59" font-family="monospace" font-size="4" fill="#888" text-anchor="middle">42% ctx</text>
+
+  <!-- Cost Info -->
+  <rect x="81" y="54" width="22" height="6" rx="2" fill="#3a3a3a"/>
+  <text x="92" y="59" font-family="monospace" font-size="4" fill="#27ca40" text-anchor="middle">$0.24</text>
+</svg>

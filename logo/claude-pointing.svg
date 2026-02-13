@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 90" width="140" height="126">
+  <style>
+    .right-arm {
+      animation: point-right 1.5s ease-in-out infinite;
+      transform-origin: left center;
+    }
+    @keyframes point-right {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(-12deg); }
+    }
+  </style>
+
+  <!-- Shadow -->
+  <ellipse cx="50" cy="82" rx="22" ry="5" fill="#000" opacity="0.25"/>
+
+  <!-- Claude Character -->
+  <!-- Claude Orange: #E07C4C -->
+
+  <!-- Left ear -->
+  <rect x="22" y="18" width="8" height="14" fill="#E07C4C"/>
+
+  <!-- Right ear -->
+  <rect x="70" y="18" width="8" height="14" fill="#E07C4C"/>
+
+  <!-- Main body - top row (narrower) -->
+  <rect x="18" y="32" width="64" height="4" fill="#E07C4C"/>
+
+  <!-- Main body - full block -->
+  <rect x="14" y="36" width="72" height="32" fill="#E07C4C"/>
+
+  <!-- Left eye (looking right) -->
+  <rect x="34" y="42" width="8" height="10" fill="#000000"/>
+
+  <!-- Right eye (looking right) -->
+  <rect x="66" y="42" width="8" height="10" fill="#000000"/>
+
+  <!-- Left arm (down) -->
+  <rect x="2" y="44" width="12" height="8" fill="#E07C4C"/>
+
+  <!-- Right arm (pointing right) -->
+  <rect class="right-arm" x="86" y="42" width="14" height="8" fill="#E07C4C"/>
+
+  <!-- Left leg -->
+  <rect x="24" y="68" width="12" height="14" fill="#E07C4C"/>
+
+  <!-- Right leg -->
+  <rect x="64" y="68" width="12" height="14" fill="#E07C4C"/>
+</svg>

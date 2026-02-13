@@ -1,18 +1,18 @@
 ---
-name: search
+name: praetorian-search
 description: Search praetorian memory for past context
 arguments: query
 ---
 
-# /search
+# /praetorian-search
 
 Search for specific context in praetorian memory.
 
 ## Usage
 
-- `/search auth` - Find auth-related compactions
-- `/search "API design"` - Search for specific topic
-- `/search decisions` - Find all decision records
+- `/praetorian-search auth` - Find auth-related compactions
+- `/praetorian-search "API design"` - Search for specific topic
+- `/praetorian-search decisions` - Find all decision records
 
 ## Action
 

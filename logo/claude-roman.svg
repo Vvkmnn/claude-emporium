@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="140" height="140">
+  <style>
+    .head-group {
+      animation: head-bob 2s ease-in-out infinite;
+    }
+    .toga {
+      animation: toga-sway 2.5s ease-in-out infinite;
+      transform-origin: 18px 36px;
+    }
+    .shadow {
+      animation: shadow-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes head-bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+
+    @keyframes toga-sway {
+      0%, 100% { transform: skewX(0deg); }
+      50% { transform: skewX(1deg); }
+    }
+
+    @keyframes shadow-pulse {
+      0%, 100% { transform: scaleX(1); }
+      50% { transform: scaleX(0.92); }
+    }
+  </style>
+
+  <!-- Shadow -->
+  <ellipse class="shadow" cx="50" cy="88" rx="22" ry="5" fill="#000" opacity="0.25"/>
+
+  <!-- Claude Character -->
+  <!-- Claude Orange: #E07C4C -->
+
+  <!-- Toga (behind body) -->
+  <polygon class="toga" points="18,36 22,44 28,60 50,68 70,62 68,56 52,62 34,56 24,42" fill="#F5F0E8"/>
+  <!-- Toga fold line -->
+  <line x1="28" y1="46" x2="48" y2="64" stroke="#E0D8CC" stroke-width="2"/>
+
+  <!-- Main body - top row (narrower) -->
+  <rect x="18" y="32" width="64" height="4" fill="#E07C4C"/>
+
+  <!-- Main body - full block -->
+  <rect x="14" y="36" width="72" height="32" fill="#E07C4C"/>
+
+  <!-- Head group (ears + laurel wreath) -->
+  <g class="head-group">
+    <!-- Left ear -->
+    <rect x="22" y="18" width="8" height="14" fill="#E07C4C"/>
+
+    <!-- Right ear -->
+    <rect x="70" y="18" width="8" height="14" fill="#E07C4C"/>
+
+    <!-- Laurel wreath (6 leaves between ears) -->
+    <rect x="32" y="16" width="4" height="6" fill="#6B8E4E"/>
+    <rect x="40" y="14" width="4" height="6" fill="#6B8E4E"/>
+    <rect x="48" y="13" width="4" height="6" fill="#6B8E4E"/>
+    <rect x="56" y="14" width="4" height="6" fill="#6B8E4E"/>
+    <rect x="64" y="16" width="4" height="6" fill="#6B8E4E"/>
+    <rect x="38" y="18" width="4" height="4" fill="#6B8E4E"/>
+  </g>
+
+  <!-- Left eye -->
+  <rect x="34" y="42" width="8" height="10" fill="#000000"/>
+
+  <!-- Right eye -->
+  <rect x="66" y="42" width="8" height="10" fill="#000000"/>
+
+  <!-- Left arm (down) -->
+  <rect x="2" y="44" width="12" height="8" fill="#E07C4C"/>
+
+  <!-- Right arm (down) -->
+  <rect x="86" y="44" width="12" height="8" fill="#E07C4C"/>
+
+  <!-- Gladius at right hip -->
+  <!-- Handle (brown) -->
+  <rect x="74" y="56" width="3" height="8" fill="#8B7355"/>
+  <!-- Blade (silver) -->
+  <rect x="75" y="50" width="1" height="6" fill="#C0C0C0"/>
+
+  <!-- Left leg -->
+  <rect x="24" y="68" width="12" height="14" fill="#E07C4C"/>
+
+  <!-- Right leg -->
+  <rect x="64" y="68" width="12" height="14" fill="#E07C4C"/>
+</svg>
