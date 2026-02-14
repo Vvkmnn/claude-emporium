@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * Pre-Compact Hook - Prompts Claude to save context before compaction
+ * Pre-Compact Hook - Save context before compaction resets it
  *
- * CRITICAL: Fires BEFORE Claude's auto-compaction resets context
- * This is the key hook that prevents context loss
+ * Triggers: PreCompact (fires before Claude's auto-compaction)
+ * This is the critical hook that prevents context loss.
  */
 
 let input = '';
@@ -12,17 +12,17 @@ process.stdin.on('data', chunk => { input += chunk; });
 
 process.stdin.on('end', () => {
   try {
-    // PreCompact may receive context about what's being compacted
-    // For now, always prompt - better safe than sorry
     console.log(JSON.stringify({
       hookSpecificOutput: {
         additionalContext: `<system-reminder>⚜️ [claude-praetorian] Context compaction imminent - SAVE NOW.
 
-Call praetorian_compact() immediately to preserve valuable work before context resets:
-- type: "decisions" → architectural choices, trade-offs made
-- type: "file_reads" → codebase patterns, key file locations
-- type: "task_result" → subagent findings, exploration results
-- type: "web_research" → API docs, external research</system-reminder>`
+Call praetorian_compact() to preserve valuable work before context resets:
+- type: "decisions" for architectural choices and trade-offs
+- type: "file_reads" for codebase patterns and key file locations
+- type: "task_result" for subagent findings and exploration results
+- type: "web_research" for API docs and external research
+
+Auto-merges with existing compactions of the same title.</system-reminder>`
       }
     }));
   } catch (e) {
@@ -30,7 +30,7 @@ Call praetorian_compact() immediately to preserve valuable work before context r
   }
 });
 
-// Handle case where stdin closes immediately
+// Handle immediate stdin close
 setTimeout(() => {
   if (!input) {
     console.log(JSON.stringify({

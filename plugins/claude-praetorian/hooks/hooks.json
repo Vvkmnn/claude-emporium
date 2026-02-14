@@ -1,12 +1,12 @@
 {
   "hooks": {
-    "SessionStart": [{
-      "matcher": "*",
+    "PreToolUse": [{
+      "matcher": "EnterPlanMode",
       "hooks": [{
         "type": "command",
-        "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/session-start.js"
+        "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/pre-plan.js"
       }],
-      "description": "Show available compactions at session start"
+      "description": "Check for prior compactions before planning"
     }],
     "PreCompact": [{
       "matcher": "*",
@@ -14,33 +14,23 @@
         "type": "command",
         "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/pre-compact.js"
       }],
-      "description": "Prompt to save context before compaction"
+      "description": "Save context before compaction resets it"
     }],
-    "PostToolUse": [
-      {
-        "matcher": "WebFetch|WebSearch|Task",
-        "hooks": [{
-          "type": "command",
-          "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/post-research.js"
-        }],
-        "description": "Prompt to compact after research or subagent completion"
-      },
-      {
-        "matcher": "Read|Grep|Glob",
-        "hooks": [{
-          "type": "command",
-          "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/post-exploration.js"
-        }],
-        "description": "Track file exploration, prompt compact after significant reads"
-      }
-    ],
-    "Stop": [{
+    "PostToolUse": [{
+      "matcher": "WebFetch|WebSearch",
+      "hooks": [{
+        "type": "command",
+        "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/post-research.js"
+      }],
+      "description": "Compact after web research"
+    }],
+    "SubagentStop": [{
       "matcher": "*",
       "hooks": [{
         "type": "command",
-        "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/session-end.js"
+        "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/post-subagent.js"
       }],
-      "description": "Prompt to save session insights before ending"
+      "description": "Compact subagent findings when agent completes"
     }]
   }
 }

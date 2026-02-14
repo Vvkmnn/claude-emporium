@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * Post-Tool-Use Hook - Reminds to compact after valuable operations
+ * Post-Research Hook - Prompt to compact after web research
  *
- * Triggers: WebFetch, Task (subagents)
- * WRAPPER: Prompts Claude to use MCP tool, doesn't compact directly
+ * Triggers: PostToolUse(WebFetch|WebSearch)
+ * Prompts Claude to use praetorian_compact() for web research findings.
  */
 
 let input = '';
@@ -20,32 +20,19 @@ process.stdin.on('end', () => {
       process.exit(0);
     }
 
-    const prompts = {
-      WebFetch: {
-        type: 'web_research',
-        message: 'Web research completed - save findings to preserve ~200 tokens.',
-        hint: 'Extract: key facts, URLs, code snippets'
-      },
-      WebSearch: {
-        type: 'web_research',
-        message: 'Web search completed - save findings to preserve ~200 tokens.',
-        hint: 'Extract: key facts, source URLs, relevant quotes'
-      },
-      Task: {
-        type: 'task_result',
-        message: 'Subagent completed - save insights to preserve ~300 tokens.',
-        hint: 'Extract: findings, file:line refs, decisions'
-      }
+    const hints = {
+      WebFetch: 'Extract: key facts, URLs, code snippets',
+      WebSearch: 'Extract: key facts, source URLs, relevant findings'
     };
 
-    const config = prompts[tool_name];
-    if (config) {
+    const hint = hints[tool_name];
+    if (hint) {
       console.log(JSON.stringify({
         hookSpecificOutput: {
-          additionalContext: `<system-reminder>⚜️ [claude-praetorian] ${config.message}
+          additionalContext: `<system-reminder>⚜️ [claude-praetorian] Web research completed - compact findings.
 
-praetorian_compact(type="${config.type}", title="<topic>", key_insights=[...], refs=[...])
-${config.hint}</system-reminder>`
+praetorian_compact(type="web_research", title="<topic>", key_insights=[...], refs=[...])
+${hint}</system-reminder>`
         }
       }));
     }
