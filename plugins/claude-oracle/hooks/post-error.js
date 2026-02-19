@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
- * Post-Error Hook - Suggest error solutions after Bash failures
+ * Post-Error Hook - Search oracle for solutions after Bash failures
  *
  * Triggers: PostToolUse(Bash)
  * Only prompts when command failed (has error or non-zero exit).
  *
  * Settings: search_after_error (default: true)
- * Synergy: notes oracle will also search for tools that solve the error.
+ * Synergy: notes historian is also checking past solutions.
  */
 
 const { readStdin, emit, loadSettings, siblings } = require('../../shared/utils');
@@ -15,7 +15,7 @@ const { readStdin, emit, loadSettings, siblings } = require('../../shared/utils'
   const data = await readStdin();
   if (!data) process.exit(0);
 
-  const settings = loadSettings('claude-historian');
+  const settings = loadSettings('claude-oracle');
   if (!settings.search_after_error) process.exit(0);
 
   const { tool_name, tool_output, error } = data;
@@ -45,14 +45,14 @@ const { readStdin, emit, loadSettings, siblings } = require('../../shared/utils'
 
   const peer = siblings();
   let synergy = '';
-  if (peer.oracle) {
-    synergy = '\n🔮 [claude-oracle] is active — also searching for tools that solve this class of problem.';
+  if (peer.historian) {
+    synergy = '\n📜 [claude-historian] is active — also checking past solutions for this error.';
   }
 
-  emit(`📜 [claude-historian] Command failed - check if you've solved this before.
+  emit(`🔮 [claude-oracle] Command failed - search for tools that might help.
 
-mcp__claude-historian-mcp__get_error_solutions(error_pattern="${displayError}", limit=3)
+mcp__claude-oracle-mcp__search(query="${displayError}", type="all", limit=3)
 
 Error: ${displayError}${errorPattern.length > 80 ? '...' : ''}
-Past solutions may have: root cause, fix applied, workarounds tried${synergy}`);
+The oracle may find MCP servers, plugins, or skills that solve this class of problem.${synergy}`);
 })();

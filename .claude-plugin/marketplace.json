@@ -1,31 +1,42 @@
 {
-  "name": "claude-agora",
-  "description": "@vvkmnn's marketplace for Claude Code plugins - Roma Victrix",
-  "owner": { "name": "vvkmnn" },
+  "name": "claude-emporium",
+  "description": "Roma Victrix \u2014 @vvkmnn's plugin marketplace for Claude Code",
+  "owner": {
+    "name": "vvkmnn"
+  },
   "plugins": [
     {
       "name": "claude-praetorian",
       "description": "Automatic context preservation hooks for praetorian MCP (saves 50-60% tokens)",
       "version": "1.0.0",
       "source": "./plugins/claude-praetorian",
-      "author": { "name": "vvkmnn" },
+      "author": {
+        "name": "vvkmnn"
+      },
       "category": "productivity",
-      "homepage": "https://github.com/vvkmnn/claude-agora/tree/main/plugins/claude-praetorian",
-      "requires": {
-        "mcp": "claude-praetorian-mcp"
-      }
+      "homepage": "https://github.com/Vvkmnn/claude-emporium/tree/main/plugins/claude-praetorian"
     },
     {
       "name": "claude-historian",
       "description": "Automatic history search hooks for historian MCP (checks past work before research)",
       "version": "1.0.0",
       "source": "./plugins/claude-historian",
-      "author": { "name": "vvkmnn" },
+      "author": {
+        "name": "vvkmnn"
+      },
       "category": "productivity",
-      "homepage": "https://github.com/vvkmnn/claude-agora/tree/main/plugins/claude-historian",
-      "requires": {
-        "mcp": "claude-historian-mcp"
-      }
+      "homepage": "https://github.com/Vvkmnn/claude-emporium/tree/main/plugins/claude-historian"
+    },
+    {
+      "name": "claude-oracle",
+      "description": "Automatic discovery of skills, plugins, and MCP servers across 17 sources",
+      "version": "1.0.0",
+      "source": "./plugins/claude-oracle",
+      "author": {
+        "name": "vvkmnn"
+      },
+      "category": "development",
+      "homepage": "https://github.com/Vvkmnn/claude-emporium/tree/main/plugins/claude-oracle"
     }
   ]
 }

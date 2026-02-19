@@ -1,0 +1,25 @@
+{
+  "name": "claude-historian",
+  "version": "1.0.0",
+  "description": "Automatic history search - checks past sessions before web research, planning, and debugging",
+  "author": {
+    "name": "vvkmnn"
+  },
+  "repository": "https://github.com/Vvkmnn/claude-emporium",
+  "homepage": "https://github.com/Vvkmnn/claude-emporium/tree/main/plugins/claude-historian",
+  "license": "MIT",
+  "keywords": [
+    "history",
+    "search",
+    "sessions",
+    "debugging"
+  ],
+  "mcpServers": {
+    "historian": {
+      "command": "bunx",
+      "args": [
+        "claude-historian-mcp"
+      ]
+    }
+  }
+}

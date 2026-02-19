@@ -1,87 +1,163 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="140" height="140">
   <style>
-    .head-group {
-      animation: head-bob 2s ease-in-out infinite;
+    .blade-glint {
+      animation: glint 3s ease-in-out infinite;
     }
-    .toga {
-      animation: toga-sway 2.5s ease-in-out infinite;
-      transform-origin: 18px 36px;
+    .toga-back {
+      animation: back-sway 3s ease-in-out infinite;
+      transform-origin: 16px 37px;
     }
-    .shadow {
-      animation: shadow-pulse 2s ease-in-out infinite;
+    .wreath {
+      animation: wreath-bob 2.5s ease-in-out infinite;
+    }
+    .sword-arm {
+      animation: sword-arc 3.0s ease-in-out infinite;
+      transform-origin: 14px 48px;
     }
 
-    @keyframes head-bob {
+    .band-1 { animation: band1-sway 3.2s ease-in-out infinite; }
+    .band-2 { animation: band2-sway 2.9s ease-in-out infinite; }
+    .band-3 { animation: band3-sway 3.6s ease-in-out infinite; }
+    .band-4 { animation: band4-sway 2.5s ease-in-out infinite; }
+    .band-5 { animation: band5-sway 3.1s ease-in-out infinite; }
+
+    @keyframes glint {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes back-sway {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(-2.5deg); }
+    }
+
+    @keyframes band1-sway {
+      0%, 100% { transform: translateX(0); }
+      30% { transform: translateX(-0.4px); }
+      65% { transform: translateX(0.15px); }
+    }
+    @keyframes band2-sway {
+      0%, 100% { transform: translateX(0); }
+      35% { transform: translateX(0.3px); }
+      70% { transform: translateX(-0.1px); }
+    }
+    @keyframes band3-sway {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-0.25px); }
+      60% { transform: translateX(0.2px); }
+    }
+    @keyframes band4-sway {
+      0%, 100% { transform: translateX(0); }
+      40% { transform: translateX(0.35px); }
+      75% { transform: translateX(-0.15px); }
+    }
+    @keyframes band5-sway {
+      0%, 100% { transform: translateX(0); }
+      30% { transform: translateX(-0.2px); }
+      70% { transform: translateX(0.1px); }
+    }
+
+    @keyframes sword-arc {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(-3deg); }
+    }
+
+    @keyframes wreath-bob {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-2px); }
-    }
-
-    @keyframes toga-sway {
-      0%, 100% { transform: skewX(0deg); }
-      50% { transform: skewX(1deg); }
-    }
-
-    @keyframes shadow-pulse {
-      0%, 100% { transform: scaleX(1); }
-      50% { transform: scaleX(0.92); }
+      50% { transform: translateY(-3px); }
     }
   </style>
 
-  <!-- Shadow -->
-  <ellipse class="shadow" cx="50" cy="88" rx="22" ry="5" fill="#000" opacity="0.25"/>
+  <!-- === 0. WREATH (leaves only, no brown lines, iteration 12 size) === -->
+  <g class="wreath">
+    <!-- Left branch leaves (dense, bottom to top-left) -->
+    <ellipse cx="24" cy="36" rx="2.2" ry="3.8" fill="#2D6B27" transform="rotate(95 24 36)"/>
+    <ellipse cx="23" cy="32" rx="2.2" ry="3.8" fill="#3D8B37" transform="rotate(108 23 32)"/>
+    <ellipse cx="22" cy="28" rx="2.2" ry="3.8" fill="#2D6B27" transform="rotate(125 22 28)"/>
+    <ellipse cx="22" cy="24" rx="2.2" ry="3.8" fill="#3D8B37" transform="rotate(140 22 24)"/>
+    <ellipse cx="23" cy="20" rx="2.2" ry="3.8" fill="#2D6B27" transform="rotate(160 23 20)"/>
+    <ellipse cx="25" cy="17" rx="2.2" ry="3.8" fill="#3D8B37" transform="rotate(178 25 17)"/>
+    <ellipse cx="28" cy="14" rx="2.2" ry="3.8" fill="#2D6B27" transform="rotate(198 28 14)"/>
+    <ellipse cx="32" cy="11" rx="2.2" ry="3.8" fill="#3D8B37" transform="rotate(215 32 11)"/>
+    <ellipse cx="37" cy="9" rx="2.2" ry="3.8" fill="#2D6B27" transform="rotate(235 37 9)"/>
+    <ellipse cx="42" cy="8" rx="2.2" ry="3.8" fill="#3D8B37" transform="rotate(255 42 8)"/>
 
-  <!-- Claude Character -->
-  <!-- Claude Orange: #E07C4C -->
-
-  <!-- Toga (behind body) -->
-  <polygon class="toga" points="18,36 22,44 28,60 50,68 70,62 68,56 52,62 34,56 24,42" fill="#F5F0E8"/>
-  <!-- Toga fold line -->
-  <line x1="28" y1="46" x2="48" y2="64" stroke="#E0D8CC" stroke-width="2"/>
-
-  <!-- Main body - top row (narrower) -->
-  <rect x="18" y="32" width="64" height="4" fill="#E07C4C"/>
-
-  <!-- Main body - full block -->
-  <rect x="14" y="36" width="72" height="32" fill="#E07C4C"/>
-
-  <!-- Head group (ears + laurel wreath) -->
-  <g class="head-group">
-    <!-- Left ear -->
-    <rect x="22" y="18" width="8" height="14" fill="#E07C4C"/>
-
-    <!-- Right ear -->
-    <rect x="70" y="18" width="8" height="14" fill="#E07C4C"/>
-
-    <!-- Laurel wreath (6 leaves between ears) -->
-    <rect x="32" y="16" width="4" height="6" fill="#6B8E4E"/>
-    <rect x="40" y="14" width="4" height="6" fill="#6B8E4E"/>
-    <rect x="48" y="13" width="4" height="6" fill="#6B8E4E"/>
-    <rect x="56" y="14" width="4" height="6" fill="#6B8E4E"/>
-    <rect x="64" y="16" width="4" height="6" fill="#6B8E4E"/>
-    <rect x="38" y="18" width="4" height="4" fill="#6B8E4E"/>
+    <!-- Right branch leaves (dense, mirrored) -->
+    <ellipse cx="76" cy="36" rx="2.2" ry="3.8" fill="#2D6B27" transform="rotate(85 76 36)"/>
+    <ellipse cx="77" cy="32" rx="2.2" ry="3.8" fill="#3D8B37" transform="rotate(72 77 32)"/>
+    <ellipse cx="78" cy="28" rx="2.2" ry="3.8" fill="#2D6B27" transform="rotate(55 78 28)"/>
+    <ellipse cx="78" cy="24" rx="2.2" ry="3.8" fill="#3D8B37" transform="rotate(40 78 24)"/>
+    <ellipse cx="77" cy="20" rx="2.2" ry="3.8" fill="#2D6B27" transform="rotate(20 77 20)"/>
+    <ellipse cx="75" cy="17" rx="2.2" ry="3.8" fill="#3D8B37" transform="rotate(2 75 17)"/>
+    <ellipse cx="72" cy="14" rx="2.2" ry="3.8" fill="#2D6B27" transform="rotate(-18 72 14)"/>
+    <ellipse cx="68" cy="11" rx="2.2" ry="3.8" fill="#3D8B37" transform="rotate(-35 68 11)"/>
+    <ellipse cx="63" cy="9" rx="2.2" ry="3.8" fill="#2D6B27" transform="rotate(-55 63 9)"/>
+    <ellipse cx="58" cy="8" rx="2.2" ry="3.8" fill="#3D8B37" transform="rotate(-75 58 8)"/>
   </g>
 
-  <!-- Left eye -->
-  <rect x="34" y="42" width="8" height="10" fill="#000000"/>
+  <!-- === 1. BACK TOGA DRAPE (behind body) === -->
+  <g class="toga-back">
+    <polygon points="16,36 10,36 6,72 8,82 20,82 22,68" fill="#9B1B1B"/>
+    <polygon points="16,36 12,36 8,72 10,78 16,68" fill="#7A1515" opacity="0.7"/>
+  </g>
 
-  <!-- Right eye -->
+  <!-- === 2. BODY === -->
+  <rect x="18" y="32" width="64" height="4" fill="#E07C4C"/>
+  <rect x="14" y="36" width="72" height="32" fill="#E07C4C"/>
+
+  <!-- === 3. EARS === -->
+  <rect x="22" y="18" width="8" height="14" fill="#E07C4C"/>
+  <rect x="70" y="18" width="8" height="14" fill="#E07C4C"/>
+
+  <!-- === 4. LEGS (before toga so toga covers their tops) === -->
+  <rect x="24" y="68" width="12" height="14" fill="#E07C4C"/>
+  <rect x="64" y="68" width="12" height="14" fill="#E07C4C"/>
+
+  <!-- === 5. FRONT TOGA (trapezoid strap behind bands, 5 asymmetric bands) === -->
+  <g class="toga-front">
+    <!-- Strap first (behind bands — base hidden by toga) -->
+    <g class="band-5">
+      <path d="M18,58 Q14,48 12,37 L20,37 Q20,48 34,63 Z" fill="#9B1B1B"/>
+      <path d="M20,58 Q16,48 13,38 L19,38 Q19,48 30,61 Z" fill="#7A1515" opacity="0.4"/>
+      <line x1="24" y1="59" x2="17" y2="39" stroke="#5E1010" stroke-width="0.6" opacity="0.5"/>
+    </g>
+    <!-- Bands on top (right side raised 3px for shorter hem) -->
+    <g class="band-1">
+      <path d="M12,65 Q38,80 86,69 L86,76 Q40,85 12,73 Z" fill="#5E1010"/>
+    </g>
+    <g class="band-2">
+      <path d="M12,62 Q60,75 87,62 L87,69 Q58,79 12,69 Z" fill="#7A1515"/>
+    </g>
+    <g class="band-3">
+      <path d="M12,59 Q48,70 87,58 L87,65 Q50,76 12,66 Z" fill="#8B1A1A"/>
+    </g>
+    <g class="band-4">
+      <path d="M12,56 Q36,68 87,56 L87,63 Q38,73 12,63 Z" fill="#9B1B1B"/>
+    </g>
+    <g class="band-5">
+      <path d="M12,53 Q56,64 87,52 L87,59 Q54,69 12,60 Z" fill="#A52222"/>
+      <path d="M12,53 Q56,64 87,52" stroke="#C03030" stroke-width="0.8" fill="none" opacity="0.5"/>
+    </g>
+  </g>
+
+  <!-- === 6. FIBULA (gold clasp on back drape) === -->
+  <circle cx="16" cy="37" r="4" fill="#DAA520" stroke="#8B6914" stroke-width="0.6"/>
+
+  <!-- === 7. EYES === -->
+  <rect x="34" y="42" width="8" height="10" fill="#000000"/>
   <rect x="66" y="42" width="8" height="10" fill="#000000"/>
 
-  <!-- Left arm (down) -->
-  <rect x="2" y="44" width="12" height="8" fill="#E07C4C"/>
-
-  <!-- Right arm (down) -->
+  <!-- === 8. RIGHT ARM (static) === -->
   <rect x="86" y="44" width="12" height="8" fill="#E07C4C"/>
 
-  <!-- Gladius at right hip -->
-  <!-- Handle (brown) -->
-  <rect x="74" y="56" width="3" height="8" fill="#8B7355"/>
-  <!-- Blade (silver) -->
-  <rect x="75" y="50" width="1" height="6" fill="#C0C0C0"/>
-
-  <!-- Left leg -->
-  <rect x="24" y="68" width="12" height="14" fill="#E07C4C"/>
-
-  <!-- Right leg -->
-  <rect x="64" y="68" width="12" height="14" fill="#E07C4C"/>
+  <!-- === 9. LEFT ARM + GLADIUS (gentle arc) === -->
+  <g class="sword-arm">
+    <rect x="2" y="44" width="12" height="8" fill="#E07C4C"/>
+    <circle cx="4" cy="53" r="2.5" fill="#8B6914"/>
+    <rect x="2.5" y="45" width="3" height="8" rx="0.8" fill="#6B4226"/>
+    <rect x="0" y="43" width="8" height="2" rx="0.5" fill="#8B6914"/>
+    <polygon points="4,24 7,28 7,43 1,43 1,28" fill="#B8B8B8" stroke="#888888" stroke-width="0.5"/>
+    <line x1="4" y1="29" x2="4" y2="41" stroke="#999" stroke-width="0.8"/>
+    <line x1="3" y1="29" x2="3" y2="42" stroke="#D4D4D4" stroke-width="0.6" class="blade-glint"/>
+  </g>
 </svg>

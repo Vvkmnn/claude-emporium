@@ -1,0 +1,26 @@
+{
+  "name": "claude-oracle",
+  "version": "1.0.0",
+  "description": "Automatic discovery of skills, plugins, and MCP servers across 17 sources",
+  "author": {
+    "name": "vvkmnn"
+  },
+  "repository": "https://github.com/Vvkmnn/claude-emporium",
+  "homepage": "https://github.com/Vvkmnn/claude-emporium/tree/main/plugins/claude-oracle",
+  "license": "MIT",
+  "keywords": [
+    "discovery",
+    "search",
+    "skills",
+    "plugins",
+    "mcp"
+  ],
+  "mcpServers": {
+    "oracle": {
+      "command": "bunx",
+      "args": [
+        "claude-oracle-mcp"
+      ]
+    }
+  }
+}

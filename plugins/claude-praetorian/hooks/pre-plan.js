@@ -5,24 +5,24 @@
  * Triggers: PreToolUse(EnterPlanMode)
  * Reads project-local index.json for compaction metadata.
  * Silent if no compactions exist.
+ *
+ * Synergy: mentions historian/oracle if siblings are enabled.
  */
 
 const fs = require('fs');
 const path = require('path');
+const { readStdin, emit, timeAgo, siblings } = require('../../shared/utils');
 
 const praetorianDir = path.join(process.cwd(), '.claude', 'praetorian');
 const indexPath = path.join(praetorianDir, 'index.json');
 
-// Silent exit if no praetorian data for this project
 if (!fs.existsSync(indexPath)) {
   process.exit(0);
 }
 
-let input = '';
-process.stdin.setEncoding('utf8');
-process.stdin.on('data', chunk => { input += chunk; });
+(async () => {
+  await readStdin();
 
-process.stdin.on('end', () => {
   try {
     const index = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
     const compactions = Object.values(index.compactions || {});
@@ -31,7 +31,6 @@ process.stdin.on('end', () => {
       process.exit(0);
     }
 
-    // Sort by updated date, show most recent
     compactions.sort((a, b) => new Date(b.updated) - new Date(a.updated));
     const recent = compactions.slice(0, 5);
 
@@ -40,28 +39,20 @@ process.stdin.on('end', () => {
       return `  - "${c.title}" (${c.type}, ${age})`;
     });
 
-    const message = `⚜️ [claude-praetorian] ${compactions.length} compaction${compactions.length > 1 ? 's' : ''} found for this project:
+    const peer = siblings();
+    let synergy = '';
+    if (peer.historian) {
+      synergy += '\n📜 [claude-historian] is active — past plans and decisions will also be searched.';
+    }
+    if (peer.oracle) {
+      synergy += '\n🔮 [claude-oracle] is active — relevant tools will also be discovered.';
+    }
+
+    emit(`⚜️ [claude-praetorian] ${compactions.length} compaction${compactions.length > 1 ? 's' : ''} found for this project:
 ${lines.join('\n')}
 
-Consider praetorian_restore("query") before planning to avoid re-research.`;
-
-    console.log(JSON.stringify({
-      hookSpecificOutput: {
-        additionalContext: `<system-reminder>${message}</system-reminder>`
-      }
-    }));
-  } catch (e) {
-    // Silent fail - don't block plan mode
+Consider praetorian_restore("query") before planning to avoid re-research.${synergy}`);
+  } catch {
     process.exit(0);
   }
-});
-
-// Handle immediate stdin close
-setTimeout(() => { if (!input) process.exit(0); }, 100);
-
-function timeAgo(date) {
-  const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
-  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-  if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-  return `${Math.floor(seconds / 86400)}d ago`;
-}
+})();

@@ -4,41 +4,35 @@
  *
  * Triggers: SubagentStop
  * Prompts Claude to compact subagent results as task_result.
- * Fires for every subagent — each has distinct findings worth saving.
+ *
+ * Settings: auto_compact_subagent (default: true)
  */
 
-let input = '';
-process.stdin.setEncoding('utf8');
-process.stdin.on('data', chunk => { input += chunk; });
+const { readStdin, emit, loadSettings } = require('../../shared/utils');
 
-process.stdin.on('end', () => {
-  try {
-    // Extract subagent info if available
-    let context = '';
-    try {
-      const data = JSON.parse(input);
-      const agentType = data.subagent_type || data.agent_type || '';
-      const description = data.description || '';
+(async () => {
+  const data = await readStdin();
 
-      if (agentType || description) {
-        const desc = description.length > 60
-          ? description.substring(0, 60) + '...'
-          : description;
-        context = agentType
-          ? `\nAgent: ${agentType}${desc ? ` - "${desc}"` : ''}`
-          : `\nTask: "${desc}"`;
-      }
-    } catch (e) { /* input may not be JSON */ }
+  const settings = loadSettings('claude-praetorian');
+  if (!settings.auto_compact_subagent) process.exit(0);
 
-    console.log(JSON.stringify({
-      hookSpecificOutput: {
-        additionalContext: `<system-reminder>⚜️ [claude-praetorian] Subagent completed - compact findings.${context}
+  let context = '';
+  if (data) {
+    const agentType = data.subagent_type || data.agent_type || '';
+    const description = data.description || '';
+
+    if (agentType || description) {
+      const desc = description.length > 60
+        ? description.substring(0, 60) + '...'
+        : description;
+      context = agentType
+        ? `\nAgent: ${agentType}${desc ? ` - "${desc}"` : ''}`
+        : `\nTask: "${desc}"`;
+    }
+  }
+
+  emit(`⚜️ [claude-praetorian] Subagent completed - compact findings.${context}
 
 praetorian_compact(type="task_result", title="<what was found>", key_insights=[...], refs=[...])
-Extract: findings, file:line refs, decisions made</system-reminder>`
-      }
-    }));
-  } catch (e) {
-    // Silent fail - don't block subagent completion
-  }
-});
+Extract: findings, file:line refs, decisions made`);
+})();

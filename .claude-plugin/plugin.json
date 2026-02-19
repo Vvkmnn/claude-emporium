@@ -1,8 +1,10 @@
 {
-  "name": "claude-agora",
+  "name": "claude-emporium",
   "version": "0.1.0",
-  "description": "@vvkmnn's marketplace for Claude Code plugins - Roma Victrix",
-  "author": { "name": "vvkmnn" },
-  "repository": "https://github.com/vvkmnn/claude-agora",
+  "description": "Roma Victrix \u2014 @vvkmnn's plugin marketplace for Claude Code",
+  "author": {
+    "name": "vvkmnn"
+  },
+  "repository": "https://github.com/Vvkmnn/claude-emporium",
   "license": "MIT"
 }

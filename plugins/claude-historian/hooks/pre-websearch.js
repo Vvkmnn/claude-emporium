@@ -2,45 +2,44 @@
 /**
  * Pre-WebSearch Hook - Check historian before web research
  *
- * Triggers: WebSearch, WebFetch
- * Prompts Claude to check find_similar_queries() first
+ * Triggers: PreToolUse(WebSearch|WebFetch)
+ * Prompts Claude to check find_similar_queries() first.
+ *
+ * Settings: search_before_web (default: true)
+ * Synergy: notes praetorian will compact research findings after.
  */
 
 const path = require('path');
+const { readStdin, emit, loadSettings, siblings } = require('../../shared/utils');
 
-let input = '';
-process.stdin.setEncoding('utf8');
-process.stdin.on('data', chunk => { input += chunk; });
+(async () => {
+  const data = await readStdin();
+  if (!data) process.exit(0);
 
-process.stdin.on('end', () => {
-  try {
-    const data = JSON.parse(input);
-    const { tool_input } = data;
+  const settings = loadSettings('claude-historian');
+  if (!settings.search_before_web) process.exit(0);
 
-    // Extract query from tool input
-    let query = '';
-    if (tool_input) {
-      query = tool_input.query || tool_input.url || tool_input.prompt || '';
-    }
+  const { tool_input } = data;
+  let query = '';
+  if (tool_input) {
+    query = tool_input.query || tool_input.url || tool_input.prompt || '';
+  }
 
-    // Get current project for context
-    const project = path.basename(process.cwd());
+  const project = path.basename(process.cwd());
+  const hint = query
+    ? `Query: "${query.substring(0, 50)}${query.length > 50 ? '...' : ''}"`
+    : `Project: ${project}`;
 
-    const hint = query
-      ? `Query: "${query.substring(0, 50)}${query.length > 50 ? '...' : ''}"`
-      : `Project: ${project}`;
+  const peer = siblings();
+  let synergy = '';
+  if (peer.praetorian) {
+    synergy = '\n⚜️ [claude-praetorian] is active — findings will be compacted automatically after research.';
+  }
 
-    console.log(JSON.stringify({
-      hookSpecificOutput: {
-        additionalContext: `<system-reminder>📜 [claude-historian] Before searching the web, check if you've researched this before.
+  emit(`📜 [claude-historian] Before searching the web, check if you've researched this before.
 
 mcp__claude-historian-mcp__find_similar_queries(query="${query || project}", limit=3)
 
 ${hint}
-Token savings: ~200-500 tokens if already answered</system-reminder>`
-      }
-    }));
-  } catch (e) {
-    // Silent fail - don't block web search
-  }
-});
+Token savings: ~200-500 tokens if already answered${synergy}`);
+})();

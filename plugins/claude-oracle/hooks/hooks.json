@@ -1,0 +1,20 @@
+{
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": "EnterPlanMode",
+      "hooks": [{
+        "type": "command",
+        "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/pre-planning.js"
+      }],
+      "description": "Search oracle for relevant tools before planning"
+    }],
+    "PostToolUse": [{
+      "matcher": "Bash",
+      "hooks": [{
+        "type": "command",
+        "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/post-error.js"
+      }],
+      "description": "Search oracle for solutions after command failures"
+    }]
+  }
+}

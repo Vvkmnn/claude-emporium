@@ -5,7 +5,7 @@
         "matcher": "WebSearch|WebFetch",
         "hooks": [{
           "type": "command",
-          "command": "node ${CLAUDE_PLUGIN_ROOT}/plugins/claude-historian/hooks/pre-websearch.js"
+          "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/pre-websearch.js"
         }],
         "description": "Check historian before web research"
       },
@@ -13,7 +13,7 @@
         "matcher": "EnterPlanMode",
         "hooks": [{
           "type": "command",
-          "command": "node ${CLAUDE_PLUGIN_ROOT}/plugins/claude-historian/hooks/pre-planning.js"
+          "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/pre-planning.js"
         }],
         "description": "Check historian before planning mode"
       },
@@ -21,7 +21,7 @@
         "matcher": "Task",
         "hooks": [{
           "type": "command",
-          "command": "node ${CLAUDE_PLUGIN_ROOT}/plugins/claude-historian/hooks/pre-task.js"
+          "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/pre-task.js"
         }],
         "description": "Check historian before launching agents"
       }
@@ -30,7 +30,7 @@
       "matcher": "Bash",
       "hooks": [{
         "type": "command",
-        "command": "node ${CLAUDE_PLUGIN_ROOT}/plugins/claude-historian/hooks/post-error.js"
+        "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/post-error.js"
       }],
       "description": "Suggest error solutions after command failures"
     }]

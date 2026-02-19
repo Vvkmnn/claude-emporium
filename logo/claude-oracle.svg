@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="220" height="220">
+  <defs>
+    <radialGradient id="orb-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD700" stop-opacity="0.9"/>
+      <stop offset="60%" stop-color="#DAA520" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#B8860B" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <style>
+    .toga-back { animation: back-sway 3s ease-in-out infinite; transform-origin: 16px 37px; }
+    .band-1 { animation: band1-sway 3.2s ease-in-out infinite; }
+    .band-2 { animation: band2-sway 2.9s ease-in-out infinite; }
+    .band-3 { animation: band3-sway 3.6s ease-in-out infinite; }
+    .band-4 { animation: band4-sway 2.5s ease-in-out infinite; }
+    .band-5 { animation: band5-sway 3.1s ease-in-out infinite; }
+    .staff-arm { animation: staff-hold 3s ease-in-out infinite; transform-origin: 86px 48px; }
+    .orb-pulse { animation: pulse 2s ease-in-out infinite; }
+    .orb-rays { animation: rays-spin 6s linear infinite; transform-origin: 94px 20px; }
+
+    @keyframes back-sway { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-2.5deg); } }
+    @keyframes band1-sway { 0%, 100% { transform: translateX(0); } 30% { transform: translateX(-0.4px); } 65% { transform: translateX(0.15px); } }
+    @keyframes band2-sway { 0%, 100% { transform: translateX(0); } 35% { transform: translateX(0.3px); } 70% { transform: translateX(-0.1px); } }
+    @keyframes band3-sway { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-0.25px); } 60% { transform: translateX(0.2px); } }
+    @keyframes band4-sway { 0%, 100% { transform: translateX(0); } 40% { transform: translateX(0.35px); } 75% { transform: translateX(-0.15px); } }
+    @keyframes band5-sway { 0%, 100% { transform: translateX(0); } 30% { transform: translateX(-0.2px); } 70% { transform: translateX(0.1px); } }
+    @keyframes staff-hold { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(1deg); } }
+    @keyframes pulse { 0%, 100% { opacity: 0.7; r: 6; } 50% { opacity: 1; r: 7; } }
+    @keyframes rays-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
+
+  <!-- Back toga drape -->
+  <g class="toga-back">
+    <polygon points="16,36 10,36 6,72 8,82 20,82 22,68" fill="#9B1B1B"/>
+    <polygon points="16,36 12,36 8,72 10,78 16,68" fill="#7A1515" opacity="0.7"/>
+  </g>
+
+  <!-- Body -->
+  <rect x="18" y="32" width="64" height="4" fill="#E07C4C"/>
+  <rect x="14" y="36" width="72" height="32" fill="#E07C4C"/>
+
+  <!-- Ears -->
+  <rect x="22" y="18" width="8" height="14" fill="#E07C4C"/>
+  <rect x="70" y="18" width="8" height="14" fill="#E07C4C"/>
+
+  <!-- Legs -->
+  <rect x="24" y="68" width="12" height="14" fill="#E07C4C"/>
+  <rect x="64" y="68" width="12" height="14" fill="#E07C4C"/>
+
+  <!-- Front toga (strap + bands) -->
+  <g class="toga-front">
+    <!-- Shoulder strap from fibula -->
+    <g class="band-5">
+      <path d="M18,58 Q14,48 12,37 L20,37 Q20,48 34,63 Z" fill="#9B1B1B"/>
+      <path d="M20,58 Q16,48 13,38 L19,38 Q19,48 30,61 Z" fill="#7A1515" opacity="0.4"/>
+      <line x1="24" y1="59" x2="17" y2="39" stroke="#5E1010" stroke-width="0.6" opacity="0.5"/>
+    </g>
+    <!-- Bands -->
+    <g class="band-1"><path d="M12,65 Q38,80 86,69 L86,76 Q40,85 12,73 Z" fill="#5E1010"/></g>
+    <g class="band-2"><path d="M12,62 Q60,75 87,62 L87,69 Q58,79 12,69 Z" fill="#7A1515"/></g>
+    <g class="band-3"><path d="M12,59 Q48,70 87,58 L87,65 Q50,76 12,66 Z" fill="#8B1A1A"/></g>
+    <g class="band-4"><path d="M12,56 Q36,68 87,56 L87,63 Q38,73 12,63 Z" fill="#9B1B1B"/></g>
+    <g class="band-5">
+      <path d="M12,53 Q56,64 87,52 L87,59 Q54,69 12,60 Z" fill="#A52222"/>
+      <path d="M12,53 Q56,64 87,52" stroke="#C03030" stroke-width="0.8" fill="none" opacity="0.5"/>
+    </g>
+  </g>
+
+  <!-- Fibula -->
+  <circle cx="16" cy="37" r="4" fill="#DAA520" stroke="#8B6914" stroke-width="0.6"/>
+
+  <!-- Eyes -->
+  <rect x="34" y="42" width="8" height="10" fill="#000000"/>
+  <rect x="66" y="42" width="8" height="10" fill="#000000"/>
+
+  <!-- Left arm (empty) -->
+  <rect x="2" y="44" width="12" height="8" fill="#E07C4C"/>
+
+  <!-- Right arm + staff with glowing orb -->
+  <g class="staff-arm">
+    <rect x="86" y="44" width="12" height="8" fill="#E07C4C"/>
+    <!-- Staff shaft -->
+    <rect x="92.5" y="24" width="3" height="36" rx="1" fill="#6B4226" stroke="#4A2E14" stroke-width="0.4"/>
+    <!-- Staff wood grain -->
+    <line x1="93.5" y1="30" x2="93.5" y2="55" stroke="#5A3720" stroke-width="0.3" opacity="0.5"/>
+    <!-- Orb glow (outer) -->
+    <circle cx="94" cy="20" r="8" fill="url(#orb-glow)" class="orb-pulse"/>
+    <!-- Orb rays -->
+    <g class="orb-rays" opacity="0.3">
+      <line x1="94" y1="11" x2="94" y2="13" stroke="#FFD700" stroke-width="0.5"/>
+      <line x1="94" y1="27" x2="94" y2="29" stroke="#FFD700" stroke-width="0.5"/>
+      <line x1="85" y1="20" x2="87" y2="20" stroke="#FFD700" stroke-width="0.5"/>
+      <line x1="101" y1="20" x2="103" y2="20" stroke="#FFD700" stroke-width="0.5"/>
+      <line x1="88" y1="14" x2="89.5" y2="15.5" stroke="#FFD700" stroke-width="0.4"/>
+      <line x1="98.5" y1="24.5" x2="100" y2="26" stroke="#FFD700" stroke-width="0.4"/>
+      <line x1="88" y1="26" x2="89.5" y2="24.5" stroke="#FFD700" stroke-width="0.4"/>
+      <line x1="98.5" y1="15.5" x2="100" y2="14" stroke="#FFD700" stroke-width="0.4"/>
+    </g>
+    <!-- Orb (solid center) -->
+    <circle cx="94" cy="20" r="4" fill="#DAA520" stroke="#B8860B" stroke-width="0.6"/>
+    <!-- Orb highlight -->
+    <circle cx="92.5" cy="18.5" r="1.2" fill="#FFE44D" opacity="0.7"/>
+    <!-- Staff cap (holds orb) -->
+    <path d="M91,24 Q94,22 97,24" fill="none" stroke="#8B6914" stroke-width="1"/>
+  </g>
+</svg>
