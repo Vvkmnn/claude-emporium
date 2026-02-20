@@ -9,7 +9,7 @@
  * Synergy: notes oracle will also search for tools that solve the error.
  */
 
-const { readStdin, emit, loadSettings, siblings } = require('../../shared/utils');
+const { readStdin, emit, loadSettings, shouldSuggestSiblings, siblings } = require('../../shared/utils');
 
 (async () => {
   const data = await readStdin();
@@ -44,9 +44,12 @@ const { readStdin, emit, loadSettings, siblings } = require('../../shared/utils'
   const displayError = errorPattern.substring(0, 80);
 
   const peer = siblings();
+  const suggest = shouldSuggestSiblings();
   let synergy = '';
   if (peer.oracle) {
     synergy = '\n🔮 [claude-oracle] is active — also searching for tools that solve this class of problem.';
+  } else if (suggest) {
+    synergy = '\n🔮 [claude-oracle] could search for tools that solve this class of error → /install claude-oracle@claude-emporium';
   }
 
   emit(`📜 [claude-historian] Command failed - check if you've solved this before.

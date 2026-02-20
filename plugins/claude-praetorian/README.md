@@ -36,6 +36,32 @@ claude mcp add praetorian -- npx claude-praetorian-mcp
 
 **Compaction types:** `web_research` · `task_result` · `file_reads` · `decisions`
 
+## Settings
+
+Configure in `~/.claude/settings.json` under `claude-emporium`:
+
+```json
+{
+  "claude-emporium": {
+    "suggest_siblings": false,
+    "claude-praetorian": {
+      "auto_compact_research": false,
+      "auto_compact_subagent": false,
+      "check_compactions_before_plan": false,
+      "remind_compact": false
+    }
+  }
+}
+```
+
+| Key | Default | What It Controls |
+|-----|---------|-----------------|
+| `auto_compact_research` | `true` | Prompt to compact after web research |
+| `auto_compact_subagent` | `true` | Prompt to compact after subagent completes |
+| `check_compactions_before_plan` | `true` | List prior compactions before planning |
+| `remind_compact` | `true` | Remind to save context before compaction |
+| `suggest_siblings` | `true` | Show install suggestions for sibling plugins (global) |
+
 ## How It Works
 
 Hooks inject prompts that trigger `claude-praetorian-mcp` tools at high-impact moments. No business logic in the plugin — it tells Claude *when* to compact, the MCP handles *how*.

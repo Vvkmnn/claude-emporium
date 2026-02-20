@@ -104,12 +104,12 @@ three plugins that wrap standalone MCP servers with automation hooks, commands, 
 
 context guard. saves and restores valuable context before compaction, after research, and when subagents complete.
 
-| hook | trigger | action |
-|------|---------|--------|
-| `PreToolUse` | `EnterPlanMode` | lists prior compactions before planning |
-| `PreCompact` | `*` | saves context before compaction resets it |
-| `PostToolUse` | `WebFetch` · `WebSearch` | prompts to compact research findings |
-| `SubagentStop` | `*` | prompts to compact subagent results |
+| hook           | trigger                  | action                                    |
+| -------------- | ------------------------ | ----------------------------------------- |
+| `PreToolUse`   | `EnterPlanMode`          | lists prior compactions before planning   |
+| `PreCompact`   | `*`                      | saves context before compaction resets it |
+| `PostToolUse`  | `WebFetch` · `WebSearch` | prompts to compact research findings      |
+| `SubagentStop` | `*`                      | prompts to compact subagent results       |
 
 commands: `/praetorian-compact` · `/praetorian-restore` · `/praetorian-search`
 
@@ -124,12 +124,12 @@ mcp: [`claude-praetorian-mcp`](https://www.npmjs.com/package/claude-praetorian-m
 
 session memory. checks past sessions before you do redundant research, planning, or debugging.
 
-| hook | trigger | action |
-|------|---------|--------|
-| `PreToolUse` | `WebSearch` · `WebFetch` | checks history before web research |
-| `PreToolUse` | `EnterPlanMode` | searches past plans before planning |
-| `PreToolUse` | `Task` | checks tool patterns before launching agents |
-| `PostToolUse` | `Bash` | suggests error solutions after failures |
+| hook          | trigger                  | action                                       |
+| ------------- | ------------------------ | -------------------------------------------- |
+| `PreToolUse`  | `WebSearch` · `WebFetch` | checks history before web research           |
+| `PreToolUse`  | `EnterPlanMode`          | searches past plans before planning          |
+| `PreToolUse`  | `Task`                   | checks tool patterns before launching agents |
+| `PostToolUse` | `Bash`                   | suggests error solutions after failures      |
 
 commands: `/historian-search`
 
@@ -144,10 +144,10 @@ mcp: [`claude-historian-mcp`](https://www.npmjs.com/package/claude-historian-mcp
 
 tool discovery. searches 17 sources in parallel to find relevant skills, plugins, and MCP servers.
 
-| hook | trigger | action |
-|------|---------|--------|
-| `PreToolUse` | `EnterPlanMode` | searches for relevant tools before planning |
-| `PostToolUse` | `Bash` | searches for tools that solve errors |
+| hook          | trigger         | action                                      |
+| ------------- | --------------- | ------------------------------------------- |
+| `PreToolUse`  | `EnterPlanMode` | searches for relevant tools before planning |
+| `PostToolUse` | `Bash`          | searches for tools that solve errors        |
 
 commands: `/oracle-search` · `/oracle-browse`
 
@@ -170,43 +170,46 @@ zero setup beyond installation. no databases, no local storage (except praetoria
 each plugin works standalone. when multiple are installed, they detect siblings at runtime and coordinate — no configuration needed.
 
 ```
-┌──────────────────────────────────────────────────────────────────────────┐
-│                                                                          │
-│     ⚜️ praetorian ◄─────────────────────────► 📜 historian               │
-│     context guard                               session memory           │
-│          │  compactions include oracle               │                   │
-│          │  discoveries when saving                  │                   │
-│          │                                           │                   │
-│          │  historian notes praetorian               │                   │
-│          │  will compact research after               │                   │
-│          │                                           │                   │
-│          └──────────────► 🔮 ◄───────────────────────┘                   │
-│                         oracle                                           │
-│                      tool discovery                                      │
-│                                                                          │
-│          oracle notes historian checking              oracle notes        │
-│          past solutions on errors                     praetorian has      │
-│                                                       saved compactions  │
-│                                                                          │
-└──────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────┐
+│                                                                     │
+│                                                                     │
+│                                                                     │
+│     ⚜️ praetorian ◄─────────────────────────► 📜 historian          │
+│     context guard                               session memory      │
+│          │                                           │              │
+│          │     compactions include oracle            │              │
+│          │     discoveries when saving               │              │
+│          │                                           │              │
+│          │     historian notes praetorian            │              │
+│          │     will compact research after           │              │
+│          │                                           │              │
+│          └──────────────► 🔮 ◄───────────────────────┘              │
+│                         oracle                                      │
+│                      tool discovery                                 │
+│                                                                     │
+│               oracle notes historian checking                       │
+│               past solutions on errors                              │
+│                                                                     │
+│                                                                     │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
 **enhanced behaviors when siblings are detected:**
 
-| event | plugin | alone | with siblings |
-|-------|--------|-------|---------------|
-| plan | ⚜️ praetorian | lists prior compactions | + historian searches past plans, oracle discovers tools |
-| plan | 📜 historian | searches past plans and decisions | + oracle will also search for relevant tools |
-| plan | 🔮 oracle | searches 17 registries for tools | + historian has past plans, praetorian has compactions |
-| compact | ⚜️ praetorian | snapshots context to `.claude/praetorian/` | + includes oracle tool discoveries in the snapshot |
-| error | 📜 historian | searches past sessions for solutions | + oracle also searching for tools that solve this class of error |
-| error | 🔮 oracle | searches registries for error-solving tools | + historian checking how this error was solved before |
-| web search | 📜 historian | checks history before redundant research | + praetorian will compact the research findings after |
-| subagent stop | ⚜️ praetorian | prompts to compact subagent results | standalone — no sibling interaction |
-| task launch | 📜 historian | checks tool patterns before agents | standalone — no sibling interaction |
+| event         | plugin        | alone                                       | with siblings                                                    |
+| ------------- | ------------- | ------------------------------------------- | ---------------------------------------------------------------- |
+| plan          | ⚜️ praetorian | lists prior compactions                     | + historian searches past plans, oracle discovers tools          |
+| plan          | 📜 historian  | searches past plans and decisions           | + oracle will also search for relevant tools                     |
+| plan          | 🔮 oracle     | searches 17 registries for tools            | + historian has past plans, praetorian has compactions           |
+| compact       | ⚜️ praetorian | snapshots context to `.claude/praetorian/`  | + includes oracle tool discoveries in the snapshot               |
+| error         | 📜 historian  | searches past sessions for solutions        | + oracle also searching for tools that solve this class of error |
+| error         | 🔮 oracle     | searches registries for error-solving tools | + historian checking how this error was solved before            |
+| web search    | 📜 historian  | checks history before redundant research    | + praetorian will compact the research findings after            |
+| subagent stop | ⚜️ praetorian | prompts to compact subagent results         | standalone — no sibling interaction                              |
+| task launch   | 📜 historian  | checks tool patterns before agents          | standalone — no sibling interaction                              |
 
 detection is one `fs.readFileSync` call (~1ms). falls back gracefully if settings are missing.
-
 
 ## contributing
 

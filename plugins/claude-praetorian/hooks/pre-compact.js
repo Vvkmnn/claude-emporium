@@ -8,10 +8,13 @@
  * Synergy: reminds to include oracle discoveries if oracle is active.
  */
 
-const { readStdin, emit, siblings } = require('../../shared/utils');
+const { readStdin, emit, loadSettings, siblings } = require('../../shared/utils');
 
 (async () => {
   await readStdin();
+
+  const settings = loadSettings('claude-praetorian');
+  if (!settings.remind_compact) process.exit(0);
 
   const peer = siblings();
   let synergy = '';

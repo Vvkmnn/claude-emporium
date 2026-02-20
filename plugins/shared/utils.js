@@ -1,8 +1,8 @@
 /**
  * Shared utilities for claude-emporium plugins.
  *
- * - Settings: per-project config via .claude/<plugin>.local.md
- * - Synergy: detect sibling plugins via ~/.claude/settings.json
+ * - Settings: global config via ~/.claude/settings.json → claude-emporium key
+ * - Synergy: detect sibling plugins via ~/.claude/settings.json → enabledPlugins
  * - I/O: stdin helper for hook scripts
  */
 
@@ -12,10 +12,14 @@ const os = require('os');
 
 // --- settings ---
 
+const SETTINGS_PATH = path.join(os.homedir(), '.claude', 'settings.json');
+
 const DEFAULTS = {
   'claude-praetorian': {
     auto_compact_research: true,
     auto_compact_subagent: true,
+    check_compactions_before_plan: true,
+    remind_compact: true,
   },
   'claude-historian': {
     search_before_web: true,
@@ -30,31 +34,36 @@ const DEFAULTS = {
 };
 
 /**
- * Load per-project settings from .claude/<plugin>.local.md frontmatter.
- * Returns defaults if file is missing or malformed.
+ * Read the claude-emporium section from ~/.claude/settings.json.
+ * Returns {} if file is missing or malformed.
+ */
+function readEmporiumSettings() {
+  try {
+    const json = JSON.parse(fs.readFileSync(SETTINGS_PATH, 'utf8'));
+    return json['claude-emporium'] || {};
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * Load settings for a plugin from ~/.claude/settings.json → claude-emporium → pluginName.
+ * Returns defaults merged with user overrides.
  */
 function loadSettings(pluginName) {
   const defaults = DEFAULTS[pluginName] || {};
-  const settingsPath = path.join(process.cwd(), '.claude', `${pluginName}.local.md`);
+  const emporium = readEmporiumSettings();
+  const overrides = emporium[pluginName] || {};
+  return { ...defaults, ...overrides };
+}
 
-  try {
-    const content = fs.readFileSync(settingsPath, 'utf8');
-    const match = content.match(/^---\n([\s\S]*?)\n---/);
-    if (!match) return defaults;
-
-    const overrides = {};
-    for (const line of match[1].split('\n')) {
-      const [key, ...rest] = line.split(':');
-      if (!key || !rest.length) continue;
-      const val = rest.join(':').trim();
-      if (val === 'true') overrides[key.trim()] = true;
-      else if (val === 'false') overrides[key.trim()] = false;
-      else overrides[key.trim()] = val;
-    }
-    return { ...defaults, ...overrides };
-  } catch {
-    return defaults;
-  }
+/**
+ * Whether to show sibling install suggestions.
+ * Defaults to true; set claude-emporium.suggest_siblings: false to suppress.
+ */
+function shouldSuggestSiblings() {
+  const emporium = readEmporiumSettings();
+  return emporium.suggest_siblings !== false;
 }
 
 // --- synergy ---
@@ -132,4 +141,4 @@ function timeAgo(date) {
   return `${Math.floor(seconds / 86400)}d ago`;
 }
 
-module.exports = { loadSettings, hasSibling, siblings, readStdin, emit, timeAgo };
+module.exports = { loadSettings, shouldSuggestSiblings, hasSibling, siblings, readStdin, emit, timeAgo };

@@ -43,6 +43,28 @@ claude mcp add oracle -- npx claude-oracle-mcp
 
 Smithery Registry, Glama.ai, Official MCP Registry, npm Registry, GitHub marketplace plugins, awesome-mcp-servers (wong2), awesome-mcp-lists (collabnix), awesome-claude-code (ccplugins), awesome-claude-code (jmanhype), awesome-agent-skills, Playbooks.com, SkillsMP, and more.
 
+## Settings
+
+Configure in `~/.claude/settings.json` under `claude-emporium`:
+
+```json
+{
+  "claude-emporium": {
+    "suggest_siblings": false,
+    "claude-oracle": {
+      "search_before_plan": false,
+      "search_after_error": false
+    }
+  }
+}
+```
+
+| Key | Default | What It Controls |
+|-----|---------|-----------------|
+| `search_before_plan` | `true` | Search for relevant tools before planning |
+| `search_after_error` | `true` | Search for tools that solve errors |
+| `suggest_siblings` | `true` | Show install suggestions for sibling plugins (global) |
+
 ## How It Works
 
 Hooks inject prompts that trigger `claude-oracle-mcp` search at high-impact moments. Results include install commands so you can immediately add useful tools.

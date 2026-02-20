@@ -10,7 +10,7 @@
  */
 
 const path = require('path');
-const { readStdin, emit, loadSettings, siblings } = require('../../shared/utils');
+const { readStdin, emit, loadSettings, shouldSuggestSiblings, siblings } = require('../../shared/utils');
 
 (async () => {
   await readStdin();
@@ -21,12 +21,17 @@ const { readStdin, emit, loadSettings, siblings } = require('../../shared/utils'
   const project = path.basename(process.cwd());
 
   const peer = siblings();
+  const suggest = shouldSuggestSiblings();
   let synergy = '';
   if (peer.praetorian) {
     synergy += '\n⚜️ [claude-praetorian] is active — check praetorian_restore() for saved compactions too.';
+  } else if (suggest) {
+    synergy += '\n⚜️ [claude-praetorian] could save these plans across compactions → /install claude-praetorian@claude-emporium';
   }
   if (peer.oracle) {
     synergy += '\n🔮 [claude-oracle] is active — relevant tools will also be discovered.';
+  } else if (suggest) {
+    synergy += '\n🔮 [claude-oracle] could discover relevant tools for this plan → /install claude-oracle@claude-emporium';
   }
 
   emit(`📜 [claude-historian] Before planning, check for past implementation approaches.

@@ -44,6 +44,32 @@ claude mcp add historian -- npx claude-historian-mcp
 | `list_recent_sessions` | Browse recent work |
 | `search_plans` | Find past implementation plans |
 
+## Settings
+
+Configure in `~/.claude/settings.json` under `claude-emporium`:
+
+```json
+{
+  "claude-emporium": {
+    "suggest_siblings": false,
+    "claude-historian": {
+      "search_before_web": false,
+      "search_before_plan": false,
+      "search_before_task": false,
+      "search_after_error": false
+    }
+  }
+}
+```
+
+| Key | Default | What It Controls |
+|-----|---------|-----------------|
+| `search_before_web` | `true` | Check history before web research |
+| `search_before_plan` | `true` | Search past plans before planning |
+| `search_before_task` | `true` | Check tool patterns before launching agents |
+| `search_after_error` | `true` | Suggest error solutions after command failures |
+| `suggest_siblings` | `true` | Show install suggestions for sibling plugins (global) |
+
 ## How It Works
 
 Hooks inject prompts that trigger `claude-historian-mcp` tools at high-impact moments. If relevant history exists, Claude reuses it. If not, it proceeds silently.
