@@ -1,0 +1,52 @@
+name: Bug Report
+description: Report a bug or unexpected behavior in a plugin
+labels: ["bug", "needs triage"]
+body:
+  - type: dropdown
+    id: plugin
+    attributes:
+      label: Which plugin?
+      options:
+        - claude-praetorian
+        - claude-historian
+        - claude-oracle
+        - claude-gladiator
+        - claude-vigil
+        - shared/utils
+        - marketplace (install/config)
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Clear description of the bug. Include hook names, command names, or MCP tool names if relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Installed plugin via /plugin install claude-X@claude-emporium
+        2. Ran command /...
+        3. Hook fired on [trigger]
+        4. Expected X, got Y
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Run `claude --version` and paste output. Include OS, Node.js version.
+      render: bash
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Hook output or error logs
+      description: Paste any error output. Redact sensitive data.
+      render: bash
+    validations:
+      required: false

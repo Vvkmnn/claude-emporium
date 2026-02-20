@@ -1,0 +1,47 @@
+name: Plugin Idea
+description: Propose a new plugin for the marketplace
+labels: ["plugin idea"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Plugin ideas that get traction usually have: a clear trigger event, a specific MCP server to wrap, and a concrete user pain they solve.
+  - type: input
+    id: name
+    attributes:
+      label: Plugin name
+      placeholder: "claude-sentinel"
+    validations:
+      required: true
+  - type: textarea
+    id: purpose
+    attributes:
+      label: What does it do?
+      description: One sentence. What hook fires, what MCP does it call, what does the user get?
+    validations:
+      required: true
+  - type: input
+    id: mcp
+    attributes:
+      label: MCP server it wraps (if known)
+      description: npm package, GitHub repo, or "none — needs new MCP"
+    validations:
+      required: false
+  - type: textarea
+    id: hooks
+    attributes:
+      label: Hook triggers
+      description: Which lifecycle events would this plugin hook into? (PreToolUse, PostToolUse, Stop, etc.)
+      placeholder: |
+        - PreToolUse / Task — check X before launching subagents
+        - Stop — summarize Y at session end
+    validations:
+      required: false
+  - type: checkboxes
+    id: willing
+    attributes:
+      label: Contribution
+      options:
+        - label: I'm willing to implement this
+        - label: I'd like help implementing this
+        - label: Just suggesting — happy for anyone to take it

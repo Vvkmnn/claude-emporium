@@ -1,0 +1,39 @@
+name: Validate
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate marketplace.json
+        run: |
+          python3 -c "import json; json.load(open('.claude-plugin/marketplace.json'))" \
+            && echo "marketplace.json: valid" \
+            || (echo "marketplace.json: INVALID JSON" && exit 1)
+
+      - name: Validate plugin.json for each plugin
+        run: |
+          for f in plugins/*/.claude-plugin/plugin.json; do
+            python3 -c "import json; json.load(open('$f'))" \
+              && echo "$f: valid" \
+              || (echo "$f: INVALID JSON" && exit 1)
+          done
+
+      - name: Validate hooks.json for each plugin
+        run: |
+          for f in plugins/*/hooks/hooks.json; do
+            python3 -c "import json; json.load(open('$f'))" \
+              && echo "$f: valid" \
+              || (echo "$f: INVALID JSON" && exit 1)
+          done
+
+      - name: Syntax check hook scripts
+        run: |
+          for f in plugins/*/hooks/*.js; do
+            node --check "$f" && echo "$f: syntax OK" || (echo "$f: SYNTAX ERROR" && exit 1)
+          done

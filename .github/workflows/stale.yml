@@ -1,0 +1,22 @@
+name: Stale
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/stale@v9
+        with:
+          days-before-issue-stale: 60
+          days-before-issue-close: 14
+          days-before-pr-stale: 30
+          days-before-pr-close: 14
+          stale-issue-message: "This issue has been inactive for 60 days. It will close in 14 days unless there's new activity."
+          stale-pr-message: "This PR has been inactive for 30 days. It will close in 14 days unless updated."
+          exempt-issue-labels: "pinned,plugin idea"

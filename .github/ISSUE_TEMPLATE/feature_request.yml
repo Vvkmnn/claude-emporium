@@ -1,0 +1,40 @@
+name: Feature Request
+description: Suggest a new feature or improvement to an existing plugin
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: plugin
+    attributes:
+      label: Which plugin (or new plugin)?
+      options:
+        - claude-praetorian
+        - claude-historian
+        - claude-oracle
+        - claude-gladiator
+        - claude-vigil
+        - New plugin idea
+        - Cross-plugin / synergy
+        - Marketplace / install experience
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the situation where this would help. What are you trying to do that's currently painful or impossible?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: What should happen? Be specific — hook triggers, command names, MCP tool behavior, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What workarounds exist today? Why aren't they sufficient?
+    validations:
+      required: false
