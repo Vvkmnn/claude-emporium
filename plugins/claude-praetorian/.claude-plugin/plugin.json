@@ -16,7 +16,7 @@
   ],
   "mcpServers": {
     "praetorian": {
-      "command": "bunx",
+      "command": "npx",
       "args": [
         "claude-praetorian-mcp"
       ]

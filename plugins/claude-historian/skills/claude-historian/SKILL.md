@@ -1,55 +1,65 @@
 ---
 name: claude-historian
-description: Automatic history search - checks past sessions before web research, planning, and debugging
+description: Automatic history search — checks past sessions before web research, planning, and debugging, siblings deepen coverage
 triggers: [PreToolUse, PostToolUse]
 ---
 
-# 📜 Claude Historian Plugin
+# Historian Plugin
 
-**Set it and forget it** history search. Automatically checks your past work before redundant research.
+Session memory. Checks past sessions before redundant research, planning, or debugging.
 
-## Value Proposition
+## Hooks
 
-| Without Plugin | With Plugin |
-|---------------|-------------|
-| Web search for solved problems | Check history first |
-| Re-discover past approaches | Reuse proven solutions |
-| Repeat debugging steps | Find past error fixes |
-| Start planning from scratch | Build on past decisions |
+| Hook | When | Action |
+|------|------|--------|
+| **PreToolUse(WebSearch/WebFetch)** | Before web research | Checks `find_similar_queries()` first |
+| **PreToolUse(EnterPlanMode)** | Before planning | Searches `search_plans()` for past approaches |
+| **PreToolUse(Task)** | Before agents | Checks `find_tool_patterns()` for workflows |
+| **PostToolUse(Bash)** | After errors | Suggests `get_error_solutions()` |
 
-**Typical savings: 200-800 tokens** per avoided redundant search.
+## Commands
 
-## Automatic Hooks
+| Command | Description |
+|---------|-------------|
+| `/search-historian <query>` | Search past sessions for solutions, decisions, context |
 
-All notifications appear as: `📜 [claude-historian] ...`
+## Workflows
 
-| Hook | When | What It Does |
-|------|------|--------------|
-| **PreToolUse** | Before WebSearch/WebFetch | Prompts `find_similar_queries` first |
-| **PreToolUse** | Before EnterPlanMode | Prompts `search_plans` for past approaches |
-| **PreToolUse** | Before Task (agents) | Prompts `find_tool_patterns` for workflows |
-| **PostToolUse** | After Bash errors | Prompts `get_error_solutions` |
+### Search (standalone)
 
-## Command
+1. `search_conversations("query")` — full-text across all sessions
+2. If error-related: `get_error_solutions("error pattern")`
+3. If file-related: `find_file_context("filename")`
+4. Summarize relevant findings
 
-`/historian-search <query>` - Search your conversation history
+### Search (with siblings)
 
-Examples:
-- `/historian-search auth implementation` - Find auth-related work
-- `/historian-search "module not found"` - Find error solutions
-- `/historian-search package.json` - Find file changes
+1. `search_conversations("query")` — historian's own search
+2. If **praetorian** active: `praetorian_restore("query")` for compacted context (denser than raw history)
+3. If **oracle** active: `search("query")` when error patterns suggest a missing tool
+4. Combine: historian provides breadth (all sessions), praetorian provides depth (curated insights)
 
-## Requirements
+### Error Resolution (standalone)
 
-Install the MCP server first:
-```json
-// ~/.claude.json
-"mcpServers": {
-  "claude-historian-mcp": { "command": "npx", "args": ["claude-historian-mcp"] }
-}
-```
+1. `get_error_solutions("error pattern")` — how was this fixed before?
+2. If found: apply the previous solution
+3. If not: proceed with normal debugging
 
-Then install this plugin for automatic hooks.
+### Error Resolution (with siblings)
+
+1. `get_error_solutions("error pattern")` — historian checks past fixes
+2. If **oracle** active: `search("error tool")` for tools that address this error class
+3. If **gladiator** active: check if this error was already observed as a pattern
+4. Present combined findings: past fix + available tools + pattern context
+
+## Sibling Synergy
+
+| Sibling | Value | How |
+|---------|-------|-----|
+| **Praetorian** | Research will be compacted after | Praetorian prompts saving after web searches historian triggers |
+| **Oracle** | Tools found for error patterns | Oracle searches for tools when historian finds recurring errors |
+| **Gladiator** | Observations correlate with history | Past solutions enrich gladiator reflection |
+| **Vigil** | Checkpoints complement history | File state preserved alongside session history |
 
 ## MCP Tools Reference
 
@@ -63,15 +73,8 @@ Then install this plugin for automatic hooks.
 | `list_recent_sessions` | Browse recent work |
 | `search_plans` | Find past implementation plans |
 
-## How It Works
+## Requires
 
 ```
-User asks question → PreToolUse fires → Hook prompts history check →
-If found: reuse past solution (save tokens)
-If not found: proceed with web search (no loss)
+claude mcp add historian -- npx claude-historian-mcp
 ```
-
-The plugin wraps (not duplicates) MCP functionality:
-- Hooks inject prompts that trigger historian MCP tools
-- High-impact triggers only (no SessionStart overhead)
-- Silent when no relevant history exists

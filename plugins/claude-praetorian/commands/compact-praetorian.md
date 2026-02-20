@@ -1,18 +1,18 @@
 ---
-name: praetorian-compact
+name: compact-praetorian
 description: Save current context to praetorian memory
 arguments: type?, title?
 ---
 
-# /praetorian-compact
+# /compact-praetorian
 
 Save valuable context for future sessions using praetorian memory.
 
 ## Usage
 
-- `/praetorian-compact` - Interactive mode (you'll be asked for type and title)
-- `/praetorian-compact web_research` - Save as web research
-- `/praetorian-compact task_result "Auth implementation"` - Save with title
+- `/compact-praetorian` - Interactive mode (you'll be asked for type and title)
+- `/compact-praetorian web_research` - Save as web research
+- `/compact-praetorian task_result "Auth implementation"` - Save with title
 
 ## Types
 

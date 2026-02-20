@@ -17,7 +17,7 @@
   ],
   "mcpServers": {
     "oracle": {
-      "command": "bunx",
+      "command": "npx",
       "args": [
         "claude-oracle-mcp"
       ]

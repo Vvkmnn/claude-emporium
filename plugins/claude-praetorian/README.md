@@ -30,9 +30,8 @@ claude mcp add praetorian -- npx claude-praetorian-mcp
 
 | Command | Description |
 |---------|-------------|
-| `/praetorian-compact [type] [title]` | Save current context (interactive or with args) |
-| `/praetorian-restore [query]` | Load previous context (recent or searched) |
-| `/praetorian-search <query>` | Search past compactions |
+| `/compact-praetorian [type] [title]` | Save current context (interactive or with args) |
+| `/restore-praetorian [query]` | Load previous context (recent or searched) |
 
 **Compaction types:** `web_research` · `task_result` · `file_reads` · `decisions`
 

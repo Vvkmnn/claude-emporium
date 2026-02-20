@@ -1,0 +1,16 @@
+{
+  "name": "claude-vigil",
+  "version": "1.0.0",
+  "description": "File checkpoint and recovery - save snapshots, diff changes, restore safely",
+  "author": { "name": "vvkmnn" },
+  "repository": "https://github.com/Vvkmnn/claude-emporium",
+  "homepage": "https://github.com/Vvkmnn/claude-emporium/tree/main/plugins/claude-vigil",
+  "license": "MIT",
+  "keywords": ["checkpoint", "snapshot", "recovery", "backup"],
+  "mcpServers": {
+    "vigil": {
+      "command": "npx",
+      "args": ["claude-vigil-mcp"]
+    }
+  }
+}

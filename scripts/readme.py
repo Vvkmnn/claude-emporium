@@ -14,85 +14,95 @@ def pad(s, w):
     return s + " " * max(0, w - len(s))
 
 
-IW = 22  # inner width per box (between │ and │)
+IW = 20  # inner width per box (between │ and │)
 BW = IW + 2  # box width including borders
-OW = 2 + 1 + BW + 1 + BW + 1 + BW + 1 + 2  # outer width = 80
+NCOLS = 5
+# outer width: ║ │ [box box box box box] │ ║
+#              2+1+1 + 5*BW + 4*gap + 1+1+2
+OW = 4 + NCOLS * BW + (NCOLS - 1) + 4  # = 4 + 110 + 4 + 4 = 122
 
 
 def outer(text=""):
-    return "║" + pad(" " + text, OW - 2) + "║"
+    return "║ │ " + pad(text, OW - 8) + " │ ║"
 
 
 def otop():
-    return "╔" + "═" * (OW - 2) + "╗"
+    return "╔═╤" + "═" * (OW - 6) + "╤═╗"
 
 
 def obot():
-    return "╚" + "═" * (OW - 2) + "╝"
+    return "╚═╧" + "═" * (OW - 6) + "╧═╝"
 
 
-def brow(c1, c2, c3):
-    b1 = "│ " + pad(c1, IW - 1) + "│"
-    b2 = "│ " + pad(c2, IW - 1) + "│"
-    b3 = "│ " + pad(c3, IW - 1) + "│"
-    inner = b1 + " " + b2 + " " + b3
-    return "║ " + pad(inner, OW - 4) + " ║"
+def _cells(c1, c2, c3, c4, c5, fmt):
+    """Build a row of 5 cells with given content and border char."""
+    cells = []
+    for c in [c1, c2, c3, c4, c5]:
+        cells.append("│" + pad(c, IW) + "│")
+    inner = " ".join(cells)
+    return "║ │ " + pad(inner, OW - 8) + " │ ║"
+
+
+def brow(c1, c2, c3, c4, c5):
+    return _cells(" " + c1, " " + c2, " " + c3, " " + c4, " " + c5, "│")
 
 
 def btop():
     b = "┌" + "─" * IW + "┐"
-    inner = b + " " + b + " " + b
-    return "║ " + pad(inner, OW - 4) + " ║"
+    inner = (" ".join([b] * NCOLS))
+    return "║ │ " + pad(inner, OW - 8) + " │ ║"
 
 
 def bbot():
     b = "└" + "─" * IW + "┘"
-    inner = b + " " + b + " " + b
-    return "║ " + pad(inner, OW - 4) + " ║"
+    inner = (" ".join([b] * NCOLS))
+    return "║ │ " + pad(inner, OW - 8) + " │ ║"
 
 
 def bsep():
     b = "├" + "─" * IW + "┤"
-    inner = b + " " + b + " " + b
-    return "║ " + pad(inner, OW - 4) + " ║"
+    inner = (" ".join([b] * NCOLS))
+    return "║ │ " + pad(inner, OW - 8) + " │ ║"
 
 
 def arrows(char="│"):
-    line = list(" " * (OW - 2))
-    for c in [14, 39, 64]:
-        line[c] = char
-    return "║" + "".join(line) + "║"
+    """Place arrow chars centered under each box."""
+    inner_w = OW - 8
+    line = list(" " * inner_w)
+    for i in range(NCOLS):
+        pos = i * (BW + 1) + BW // 2
+        if pos < len(line):
+            line[pos] = char
+    return "║ │ " + "".join(line) + " │ ║"
 
 
-E = " " * (IW - 1)  # empty cell content
+E = " " * (IW - 1)  # empty cell content (padded by brow)
 
 
 def generate():
     L = []
 
     L.append(otop())
-    L.append(outer("claude emporium"))
     L.append(outer())
     L.append(outer("PLUGINS"))
     L.append(outer())
 
     # --- plugin boxes ---
     L.append(btop())
-    L.append(brow("   PRAETORIAN      ", "   HISTORIAN       ", "    ORACLE         "))
-    L.append(brow(" context guard     ", " session memory    ", " tool discovery    "))
+    L.append(brow("  PRAETORIAN       ", "  HISTORIAN        ", "  ORACLE           ", "  GLADIATOR        ", "  VIGIL            "))
+    L.append(brow("context guard      ", "session memory     ", "tool discovery     ", "learn & adapt      ", "file recovery      "))
     L.append(bsep())
-    L.append(brow(E, E, E))
-    L.append(brow("hooks              ", "hooks              ", "hooks              "))
-    L.append(brow("· pre-plan         ", "· pre-websearch    ", "· pre-plan         "))
-    L.append(brow("· pre-compact      ", "· pre-plan         ", "· post-error       "))
-    L.append(brow("· post-research    ", "· pre-task         ", E))
-    L.append(brow("· subagent-stop    ", "· post-error       ", "commands           "))
-    L.append(brow(E, E, "· /oracle-search   "))
-    L.append(brow("commands           ", "commands           ", "· /oracle-browse   "))
-    L.append(brow("· /compact         ", "· /historian-search", E))
-    L.append(brow("· /restore         ", E, E))
-    L.append(brow("· /search          ", E, E))
-    L.append(brow(E, E, E))
+    L.append(brow("hooks              ", "hooks              ", "hooks              ", "hooks              ", "hooks              "))
+    L.append(brow("· pre-plan         ", "· pre-websearch    ", "· pre-plan         ", "· post-error       ", "· pre-bash         "))
+    L.append(brow("· pre-compact      ", "· pre-plan         ", "· post-error       ", "· stop             ", "                   "))
+    L.append(brow("· post-research    ", "· pre-task         ", "                   ", "                   ", "commands           "))
+    L.append(brow("· subagent-stop    ", "· post-error       ", "commands           ", "commands           ", "· /save-vigil      "))
+    L.append(brow("                   ", "                   ", "· /search-oracle   ", "· /review-         ", "· /restore-vigil   "))
+    L.append(brow("commands           ", "commands           ", "                   ", "  gladiator        ", "                   "))
+    L.append(brow("· /compact-        ", "· /search-         ", "                   ", "                   ", "                   "))
+    L.append(brow("  praetorian       ", "  historian        ", "                   ", "                   ", "                   "))
+    L.append(brow("· /restore-        ", "                   ", "                   ", "                   ", "                   "))
+    L.append(brow("  praetorian       ", "                   ", "                   ", "                   ", "                   "))
     L.append(bbot())
 
     # --- arrows ---
@@ -100,43 +110,38 @@ def generate():
     L.append(arrows("▼"))
     L.append(outer())
 
-    # --- mcp section ---
-    L.append(outer("MCP SERVERS"))
-    L.append(outer())
+    # --- mcp boxes ---
     L.append(btop())
-    L.append(brow("praetorian-mcp     ", " historian-mcp     ", "  oracle-mcp       "))
+    L.append(brow("praetorian-mcp     ", "historian-mcp      ", "oracle-mcp         ", "gladiator-mcp      ", "vigil-mcp          "))
     L.append(bsep())
-    L.append(brow(E, E, E))
-    L.append(brow("save_context       ", "search_convos      ", "search             "))
-    L.append(brow("· snapshot before  ", "· full-text across ", "· query 17 sources "))
-    L.append(brow("  compaction       ", "  all sessions     ", "  in parallel      "))
-    L.append(brow(E, E, E))
-    L.append(brow("restore_context    ", "get_error_solutions", "browse             "))
-    L.append(brow("· load previous    ", "· how past errors  ", "· by category or   "))
-    L.append(brow("  session state    ", "  were resolved    ", "  popularity       "))
-    L.append(brow(E, E, E))
-    L.append(brow("search_compactions ", "find_similar_query ", "sources            "))
-    L.append(brow("· find past saves  ", "· related past     ", "· list registries  "))
-    L.append(brow("  by keyword       ", "  questions        ", "  and status       "))
-    L.append(brow(E, E, E))
-    L.append(brow("list_compactions   ", "find_file_context  ", "── ── ── ── ── ── "))
-    L.append(brow("· browse recent    ", "· track changes    ", "smithery · glama   "))
-    L.append(brow("  snapshots        ", "  across sessions  ", "npm · github       "))
-    L.append(brow(E, E, "awesome-mcp        "))
-    L.append(brow("── ── ── ── ── ── ", "find_tool_patterns ", "mcp-registry       "))
-    L.append(brow("storage:           ", "· successful agent ", "+ 11 more          "))
-    L.append(brow(".claude/praetorian/", "  workflows        ", E))
-    L.append(brow(E, E, "in-memory cache    "))
-    L.append(brow(E, "search_plans       ", "zero storage       "))
-    L.append(brow(E, "· past plans and   ", E))
-    L.append(brow(E, "  decisions        ", E))
-    L.append(brow(E, E, E))
-    L.append(brow(E, "list_recent        ", E))
-    L.append(brow(E, "· browse recent    ", E))
-    L.append(brow(E, "  sessions         ", E))
-    L.append(brow(E, E, E))
+    L.append(brow("save_context       ", "search_convos      ", "search             ", "observe            ", "vigil_save         "))
+    L.append(brow("· snapshot before  ", "· full-text across ", "· query 17 sources ", "· record patterns  ", "· named checkpoint "))
+    L.append(brow("  compaction       ", "  all sessions     ", "  in parallel      ", "                   ", "                   "))
+    L.append(brow("                   ", "                   ", "                   ", "reflect            ", "vigil_list         "))
+    L.append(brow("restore_context    ", "get_error_solns    ", "browse             ", "· cluster and      ", "· show checkpoints "))
+    L.append(brow("· load previous    ", "· how errors were  ", "· by category or   ", "  recommend        ", "                   "))
+    L.append(brow("  session state    ", "  resolved         ", "  popularity       ", "                   ", "vigil_diff         "))
+    L.append(brow("                   ", "                   ", "                   ", "── ── ── ── ──     ", "· preview changes  "))
+    L.append(brow("search_compactns   ", "find_similar       ", "sources            ", "storage:           ", "                   "))
+    L.append(brow("· find past saves  ", "· related past     ", "· list registries  ", ".claude/           ", "vigil_restore      "))
+    L.append(brow("                   ", "  questions        ", "  and status       ", "gladiator/         ", "· restore files    "))
+    L.append(brow("list_compactions   ", "                   ", "                   ", "                   ", "                   "))
+    L.append(brow("· browse recent    ", "find_file_context  ", "── ── ── ── ──     ", "                   ", "vigil_delete       "))
+    L.append(brow("  snapshots        ", "· track changes    ", "smithery · glama   ", "                   ", "· remove checkpoint"))
+    L.append(brow("                   ", "                   ", "npm · github       ", "                   ", "                   "))
+    L.append(brow("── ── ── ── ──     ", "find_tool_pattns   ", "awesome-mcp        ", "                   ", "── ── ── ── ──     "))
+    L.append(brow("storage:           ", "· agent workflows  ", "mcp-registry       ", "                   ", "storage:           "))
+    L.append(brow(".claude/           ", "                   ", "+ 11 more          ", "                   ", ".claude/           "))
+    L.append(brow("praetorian/        ", "search_plans       ", "                   ", "                   ", "vigil/             "))
+    L.append(brow("                   ", "· past plans       ", "in-memory cache    ", "                   ", "                   "))
+    L.append(brow("                   ", "                   ", "zero storage       ", "                   ", "                   "))
+    L.append(brow("                   ", "list_recent        ", "                   ", "                   ", "                   "))
+    L.append(brow("                   ", "· recent sessions  ", "                   ", "                   ", "                   "))
     L.append(bbot())
+
     L.append(outer())
+    right_label = "MCP SERVERS"
+    L.append("║ │ " + " " * (OW - 8 - len(right_label)) + right_label + " │ ║")
     L.append(obot())
 
     # validate

@@ -31,6 +31,13 @@ const DEFAULTS = {
     search_before_plan: true,
     search_after_error: true,
   },
+  'claude-gladiator': {
+    observe_after_failure: true,
+    reflect_before_stop: true,
+  },
+  'claude-vigil': {
+    auto_quicksave: true,
+  },
 };
 
 /**
@@ -72,6 +79,8 @@ const EMPORIUM_PLUGINS = {
   praetorian: 'claude-praetorian@claude-emporium',
   historian: 'claude-historian@claude-emporium',
   oracle: 'claude-oracle@claude-emporium',
+  gladiator: 'claude-gladiator@claude-emporium',
+  vigil: 'claude-vigil@claude-emporium',
 };
 
 /**
@@ -99,6 +108,8 @@ function siblings() {
     praetorian: hasSibling('praetorian'),
     historian: hasSibling('historian'),
     oracle: hasSibling('oracle'),
+    gladiator: hasSibling('gladiator'),
+    vigil: hasSibling('vigil'),
   };
 }
 

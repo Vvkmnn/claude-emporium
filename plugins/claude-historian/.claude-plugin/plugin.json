@@ -16,7 +16,7 @@
   ],
   "mcpServers": {
     "historian": {
-      "command": "bunx",
+      "command": "npx",
       "args": [
         "claude-historian-mcp"
       ]

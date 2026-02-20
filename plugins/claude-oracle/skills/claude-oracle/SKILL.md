@@ -1,66 +1,69 @@
 ---
 name: claude-oracle
-description: Automatic discovery of skills, plugins, and MCP servers across 17 sources
+description: Automatic tool discovery across 17 sources — hooks search before planning and after errors, siblings avoid redundant searches
 triggers: [PreToolUse, PostToolUse]
 ---
 
-# 🔮 Claude Oracle Plugin
+# Oracle Plugin
 
-**Set it and forget it** tool discovery. Automatically searches for relevant skills, plugins, and MCP servers.
+Tool discovery. Searches 17 sources in parallel to find relevant skills, plugins, and MCP servers.
 
-## Value Proposition
+## Hooks
 
-| Without Plugin | With Plugin |
-|---------------|-------------|
-| Manually browse marketplaces | Auto-search before planning |
-| Miss useful tools | Discover tools from 17 sources |
-| Search one source at a time | Parallel search across all sources |
-| Guess what exists | Get ranked results with install commands |
-
-## Automatic Hooks
-
-All notifications appear as: `🔮 [claude-oracle] ...`
-
-| Hook | When | What It Does |
-|------|------|--------------|
-| **PreToolUse** | Before EnterPlanMode | Searches for relevant tools before planning |
-| **PostToolUse** | After Bash errors | Searches for tools that solve the error |
+| Hook | When | Action |
+|------|------|--------|
+| **PreToolUse(EnterPlanMode)** | Before planning | Searches for relevant tools before planning |
+| **PostToolUse(Bash)** | After errors | Searches for tools that solve the error |
 
 ## Commands
 
-`/oracle-search <query>` - Search for tools across all sources
-`/oracle-browse [category]` - Browse tools by category or popularity
+| Command | Description |
+|---------|-------------|
+| `/search-oracle <query> [type]` | Search for tools across all 17 sources |
 
-## Requirements
+## Workflows
 
-Install the MCP server first:
-```bash
-claude mcp add oracle -- npx claude-oracle-mcp
-```
+### Discovery (standalone)
 
-Then install this plugin for automatic hooks.
+1. `search("query")` — search all sources
+2. Review results with install commands
+3. Install useful tools: skills, plugins, or MCP servers
 
-## MCP Tools Reference
+### Discovery (with siblings)
 
-| Tool | Purpose |
-|------|---------|
-| `search` | Search all sources for relevant tools |
-| `browse` | Browse by category or popularity |
-| `sources` | Show available data sources and status |
+1. If **historian** active: `find_similar_queries("query")` first to check if this search was done before
+2. `search("query")` — oracle's own search across 17 sources
+3. If **praetorian** active: compact the discovery results for future reference
+4. Present findings with install commands and note what siblings already provide
+
+### Error Tool Search (standalone)
+
+1. Error triggers PostToolUse hook
+2. `search("error description")` — find tools that address this error class
+3. Present matching tools with install commands
+
+### Error Tool Search (with siblings)
+
+1. Error triggers PostToolUse hook
+2. If **historian** active: `get_error_solutions("error")` checks if solved before
+3. `search("error description")` — oracle finds new tools
+4. If **gladiator** active: error is also being observed for pattern detection
+5. Combined: past solution (historian) + new tools (oracle) + pattern tracking (gladiator)
+
+## Sibling Synergy
+
+| Sibling | Value | How |
+|---------|-------|-----|
+| **Historian** | Past searches avoid duplicate discovery | Historian checked first, oracle only runs if no history match |
+| **Praetorian** | Cached compactions contain prior tool results | Restore before re-searching |
+| **Gladiator** | Observations reveal tool gaps | Reflection may suggest searching for tools to fill gaps |
 
 ## Data Sources (17)
 
-Smithery Registry, Glama.ai, Official MCP Registry, npm, GitHub marketplace plugins, awesome-mcp-servers, awesome-claude-code, awesome-agent-skills, Playbooks.com, SkillsMP, and more.
+Smithery Registry, Glama.ai, Official MCP Registry, npm, GitHub marketplace plugins, awesome-mcp-servers, awesome-mcp-lists, awesome-claude-code (ccplugins), awesome-claude-code (jmanhype), awesome-agent-skills, Playbooks.com, SkillsMP, and more.
 
-## How It Works
+## Requires
 
 ```
-User enters plan mode → PreToolUse fires → Hook searches oracle →
-If found: suggests relevant tools with install commands
-If not found: proceeds silently (no overhead)
+claude mcp add oracle -- npx claude-oracle-mcp
 ```
-
-The plugin wraps (not duplicates) MCP functionality:
-- Hooks inject prompts that trigger oracle MCP tools
-- High-impact triggers only (planning, errors)
-- Silent when no relevant tools exist

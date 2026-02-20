@@ -13,71 +13,62 @@
 
 ---
 
-three plugins that wrap standalone MCP servers with automation hooks, commands, and skills. no code duplication — plugins tell claude _when_ to act, MCPs handle _how_.
+five plugins that wrap standalone MCP servers with automation hooks, commands, and skills. no code duplication — plugins tell claude _when_ to act, MCPs handle _how_.
 
 ```
-╔══════════════════════════════════════════════════════════════════════════════╗
-║ claude emporium                                                              ║
-║                                                                              ║
-║ PLUGINS                                                                      ║
-║                                                                              ║
-║ ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────────┐   ║
-║ │    PRAETORIAN        │ │    HISTORIAN         │ │     ORACLE           │   ║
-║ │  context guard       │ │  session memory      │ │  tool discovery      │   ║
-║ ├──────────────────────┤ ├──────────────────────┤ ├──────────────────────┤   ║
-║ │                      │ │                      │ │                      │   ║
-║ │ hooks                │ │ hooks                │ │ hooks                │   ║
-║ │ · pre-plan           │ │ · pre-websearch      │ │ · pre-plan           │   ║
-║ │ · pre-compact        │ │ · pre-plan           │ │ · post-error         │   ║
-║ │ · post-research      │ │ · pre-task           │ │                      │   ║
-║ │ · subagent-stop      │ │ · post-error         │ │ commands             │   ║
-║ │                      │ │                      │ │ · /oracle-search     │   ║
-║ │ commands             │ │ commands             │ │ · /oracle-browse     │   ║
-║ │ · /compact           │ │ · /historian-search  │ │                      │   ║
-║ │ · /restore           │ │                      │ │                      │   ║
-║ │ · /search            │ │                      │ │                      │   ║
-║ │                      │ │                      │ │                      │   ║
-║ └──────────────────────┘ └──────────────────────┘ └──────────────────────┘   ║
-║              │                        │                        │             ║
-║              ▼                        ▼                        ▼             ║
-║                                                                              ║
-║ MCP SERVERS                                                                  ║
-║                                                                              ║
-║ ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────────┐   ║
-║ │ praetorian-mcp       │ │  historian-mcp       │ │   oracle-mcp         │   ║
-║ ├──────────────────────┤ ├──────────────────────┤ ├──────────────────────┤   ║
-║ │                      │ │                      │ │                      │   ║
-║ │ save_context         │ │ search_convos        │ │ search               │   ║
-║ │ · snapshot before    │ │ · full-text across   │ │ · query 17 sources   │   ║
-║ │   compaction         │ │   all sessions       │ │   in parallel        │   ║
-║ │                      │ │                      │ │                      │   ║
-║ │ restore_context      │ │ get_error_solutions  │ │ browse               │   ║
-║ │ · load previous      │ │ · how past errors    │ │ · by category or     │   ║
-║ │   session state      │ │   were resolved      │ │   popularity         │   ║
-║ │                      │ │                      │ │                      │   ║
-║ │ search_compactions   │ │ find_similar_query   │ │ sources              │   ║
-║ │ · find past saves    │ │ · related past       │ │ · list registries    │   ║
-║ │   by keyword         │ │   questions          │ │   and status         │   ║
-║ │                      │ │                      │ │                      │   ║
-║ │ list_compactions     │ │ find_file_context    │ │ ── ── ── ── ── ──    │   ║
-║ │ · browse recent      │ │ · track changes      │ │ smithery · glama     │   ║
-║ │   snapshots          │ │   across sessions    │ │ npm · github         │   ║
-║ │                      │ │                      │ │ awesome-mcp          │   ║
-║ │ ── ── ── ── ── ──    │ │ find_tool_patterns   │ │ mcp-registry         │   ║
-║ │ storage:             │ │ · successful agent   │ │ + 11 more            │   ║
-║ │ .claude/praetorian/  │ │   workflows          │ │                      │   ║
-║ │                      │ │                      │ │ in-memory cache      │   ║
-║ │                      │ │ search_plans         │ │ zero storage         │   ║
-║ │                      │ │ · past plans and     │ │                      │   ║
-║ │                      │ │   decisions          │ │                      │   ║
-║ │                      │ │                      │ │                      │   ║
-║ │                      │ │ list_recent          │ │                      │   ║
-║ │                      │ │ · browse recent      │ │                      │   ║
-║ │                      │ │   sessions           │ │                      │   ║
-║ │                      │ │                      │ │                      │   ║
-║ └──────────────────────┘ └──────────────────────┘ └──────────────────────┘   ║
-║                                                                              ║
-╚══════════════════════════════════════════════════════════════════════════════╝
+╔═╤════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╤═╗
+║ │                                                                                                                    │ ║
+║ │ PLUGINS                                                                                                            │ ║
+║ │                                                                                                                    │ ║
+║ │ ┌────────────────────┐ ┌────────────────────┐ ┌────────────────────┐ ┌────────────────────┐ ┌────────────────────┐ │ ║
+║ │ │   PRAETORIAN       │ │   HISTORIAN        │ │   ORACLE           │ │   GLADIATOR        │ │   VIGIL            │ │ ║
+║ │ │ context guard      │ │ session memory     │ │ tool discovery     │ │ learn & adapt      │ │ file recovery      │ │ ║
+║ │ ├────────────────────┤ ├────────────────────┤ ├────────────────────┤ ├────────────────────┤ ├────────────────────┤ │ ║
+║ │ │ hooks              │ │ hooks              │ │ hooks              │ │ hooks              │ │ hooks              │ │ ║
+║ │ │ · pre-plan         │ │ · pre-websearch    │ │ · pre-plan         │ │ · post-error       │ │ · pre-bash         │ │ ║
+║ │ │ · pre-compact      │ │ · pre-plan         │ │ · post-error       │ │ · stop             │ │                    │ │ ║
+║ │ │ · post-research    │ │ · pre-task         │ │                    │ │                    │ │ commands           │ │ ║
+║ │ │ · subagent-stop    │ │ · post-error       │ │ commands           │ │ commands           │ │ · /save-vigil      │ │ ║
+║ │ │                    │ │                    │ │ · /search-oracle   │ │ · /review-         │ │ · /restore-vigil   │ │ ║
+║ │ │ commands           │ │ commands           │ │                    │ │   gladiator        │ │                    │ │ ║
+║ │ │ · /compact-        │ │ · /search-         │ │                    │ │                    │ │                    │ │ ║
+║ │ │   praetorian       │ │   historian        │ │                    │ │                    │ │                    │ │ ║
+║ │ │ · /restore-        │ │                    │ │                    │ │                    │ │                    │ │ ║
+║ │ │   praetorian       │ │                    │ │                    │ │                    │ │                    │ │ ║
+║ │ └────────────────────┘ └────────────────────┘ └────────────────────┘ └────────────────────┘ └────────────────────┘ │ ║
+║ │            │                      │                      │                      │                      │           │ ║
+║ │            ▼                      ▼                      ▼                      ▼                      ▼           │ ║
+║ │                                                                                                                    │ ║
+║ │ ┌────────────────────┐ ┌────────────────────┐ ┌────────────────────┐ ┌────────────────────┐ ┌────────────────────┐ │ ║
+║ │ │ praetorian-mcp     │ │ historian-mcp      │ │ oracle-mcp         │ │ gladiator-mcp      │ │ vigil-mcp          │ │ ║
+║ │ ├────────────────────┤ ├────────────────────┤ ├────────────────────┤ ├────────────────────┤ ├────────────────────┤ │ ║
+║ │ │ save_context       │ │ search_convos      │ │ search             │ │ observe            │ │ vigil_save         │ │ ║
+║ │ │ · snapshot before  │ │ · full-text across │ │ · query 17 sources │ │ · record patterns  │ │ · named checkpoint │ │ ║
+║ │ │   compaction       │ │   all sessions     │ │   in parallel      │ │                    │ │                    │ │ ║
+║ │ │                    │ │                    │ │                    │ │ reflect            │ │ vigil_list         │ │ ║
+║ │ │ restore_context    │ │ get_error_solns    │ │ browse             │ │ · cluster and      │ │ · show checkpoints │ │ ║
+║ │ │ · load previous    │ │ · how errors were  │ │ · by category or   │ │   recommend        │ │                    │ │ ║
+║ │ │   session state    │ │   resolved         │ │   popularity       │ │                    │ │ vigil_diff         │ │ ║
+║ │ │                    │ │                    │ │                    │ │ ── ── ── ── ──     │ │ · preview changes  │ │ ║
+║ │ │ search_compactns   │ │ find_similar       │ │ sources            │ │ storage:           │ │                    │ │ ║
+║ │ │ · find past saves  │ │ · related past     │ │ · list registries  │ │ .claude/           │ │ vigil_restore      │ │ ║
+║ │ │                    │ │   questions        │ │   and status       │ │ gladiator/         │ │ · restore files    │ │ ║
+║ │ │ list_compactions   │ │                    │ │                    │ │                    │ │                    │ │ ║
+║ │ │ · browse recent    │ │ find_file_context  │ │ ── ── ── ── ──     │ │                    │ │ vigil_delete       │ │ ║
+║ │ │   snapshots        │ │ · track changes    │ │ smithery · glama   │ │                    │ │ · remove checkpoint│ │ ║
+║ │ │                    │ │                    │ │ npm · github       │ │                    │ │                    │ │ ║
+║ │ │ ── ── ── ── ──     │ │ find_tool_pattns   │ │ awesome-mcp        │ │                    │ │ ── ── ── ── ──     │ │ ║
+║ │ │ storage:           │ │ · agent workflows  │ │ mcp-registry       │ │                    │ │ storage:           │ │ ║
+║ │ │ .claude/           │ │                    │ │ + 11 more          │ │                    │ │ .claude/           │ │ ║
+║ │ │ praetorian/        │ │ search_plans       │ │                    │ │                    │ │ vigil/             │ │ ║
+║ │ │                    │ │ · past plans       │ │ in-memory cache    │ │                    │ │                    │ │ ║
+║ │ │                    │ │                    │ │ zero storage       │ │                    │ │                    │ │ ║
+║ │ │                    │ │ list_recent        │ │                    │ │                    │ │                    │ │ ║
+║ │ │                    │ │ · recent sessions  │ │                    │ │                    │ │                    │ │ ║
+║ │ └────────────────────┘ └────────────────────┘ └────────────────────┘ └────────────────────┘ └────────────────────┘ │ ║
+║ │                                                                                                                    │ ║
+║ │                                                                                                        MCP SERVERS │ ║
+╚═╧════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╧═╝
 ```
 
 ## install
@@ -90,11 +81,15 @@ three plugins that wrap standalone MCP servers with automation hooks, commands, 
 /plugin install claude-praetorian@claude-emporium
 /plugin install claude-historian@claude-emporium
 /plugin install claude-oracle@claude-emporium
+/plugin install claude-gladiator@claude-emporium
+/plugin install claude-vigil@claude-emporium
 
 # or install standalone MCP servers only (no hooks, commands, or skills)
-# claude mcp add praetorian -- bunx claude-praetorian-mcp  # https://github.com/Vvkmnn/claude-praetorian-mcp
-# claude mcp add historian -- bunx claude-historian-mcp    # https://github.com/Vvkmnn/claude-historian-mcp
-# claude mcp add oracle -- bunx claude-oracle-mcp          # https://github.com/Vvkmnn/claude-oracle-mcp
+# claude mcp add praetorian -- npx claude-praetorian-mcp  # https://github.com/Vvkmnn/claude-praetorian-mcp
+# claude mcp add historian -- npx claude-historian-mcp    # https://github.com/Vvkmnn/claude-historian-mcp
+# claude mcp add oracle -- npx claude-oracle-mcp          # https://github.com/Vvkmnn/claude-oracle-mcp
+# claude mcp add gladiator -- npx claude-gladiator-mcp    # https://github.com/Vvkmnn/claude-gladiator-mcp
+# claude mcp add vigil -- npx claude-vigil-mcp            # https://github.com/Vvkmnn/claude-vigil-mcp
 ```
 
 ## plugins
@@ -111,7 +106,7 @@ context guard. saves and restores valuable context before compaction, after rese
 | `PostToolUse`  | `WebFetch` · `WebSearch` | prompts to compact research findings      |
 | `SubagentStop` | `*`                      | prompts to compact subagent results       |
 
-commands: `/praetorian-compact` · `/praetorian-restore` · `/praetorian-search`
+commands: `/compact-praetorian` · `/restore-praetorian`
 
 mcp: [`claude-praetorian-mcp`](https://www.npmjs.com/package/claude-praetorian-mcp) — storage at `.claude/praetorian/`
 
@@ -131,7 +126,7 @@ session memory. checks past sessions before you do redundant research, planning,
 | `PreToolUse`  | `Task`                   | checks tool patterns before launching agents |
 | `PostToolUse` | `Bash`                   | suggests error solutions after failures      |
 
-commands: `/historian-search`
+commands: `/search-historian`
 
 mcp: [`claude-historian-mcp`](https://www.npmjs.com/package/claude-historian-mcp) — 7 search tools across conversations, errors, files, plans
 
@@ -149,9 +144,44 @@ tool discovery. searches 17 sources in parallel to find relevant skills, plugins
 | `PreToolUse`  | `EnterPlanMode` | searches for relevant tools before planning |
 | `PostToolUse` | `Bash`          | searches for tools that solve errors        |
 
-commands: `/oracle-search` · `/oracle-browse`
+commands: `/search-oracle`
 
 mcp: [`claude-oracle-mcp`](https://www.npmjs.com/package/claude-oracle-mcp) — smithery, glama, npm, github, awesome-mcp-servers, and more
+
+<br clear="right"/>
+
+---
+
+<img src="logo/claude-gladiator.svg" width="160" height="160" align="right" alt="gladiator">
+<h3>gladiator</h3>
+
+continuous learning. observes tool failures and prompts reflection at session end to evolve rules, hooks, and skills.
+
+| hook          | trigger                  | action                                            |
+| ------------- | ------------------------ | ------------------------------------------------- |
+| `PostToolUse` | `Bash` · `Edit` · `Write` | observes failure patterns (silent on success)     |
+| `Stop`        | `*`                      | prompts reflection if unprocessed observations exist |
+
+commands: `/review-gladiator`
+
+mcp: [`claude-gladiator-mcp`](https://www.npmjs.com/package/claude-gladiator-mcp) — storage at `.claude/gladiator/`
+
+<br clear="right"/>
+
+---
+
+<img src="logo/claude-vigil.svg" width="160" height="160" align="right" alt="vigil">
+<h3>vigil</h3>
+
+file recovery. saves checkpoints before dangerous operations, diffs changes, restores files safely.
+
+| hook          | trigger | action                                                      |
+| ------------- | ------- | ----------------------------------------------------------- |
+| `PreToolUse`  | `Bash`  | auto-quicksaves before destructive commands (rm, mv, etc.)  |
+
+commands: `/save-vigil` · `/restore-vigil`
+
+mcp: [`claude-vigil-mcp`](https://www.npmjs.com/package/claude-vigil-mcp) — storage at `.claude/vigil/`
 
 <br clear="right"/>
 
@@ -163,36 +193,38 @@ each plugin is a thin wrapper. hooks inject prompts that trigger MCP tools at hi
 hook fires → plugin injects prompt → claude calls mcp → result flows back
 ```
 
-zero setup beyond installation. no databases, no local storage (except praetorian's project-local `.claude/praetorian/`). all search is computed in-memory with TTL caching.
+zero setup beyond installation. no databases, no external storage. praetorian, gladiator, and vigil use project-local dirs (`.claude/praetorian/`, `.claude/gladiator/`, `.claude/vigil/`). oracle and historian compute in-memory with TTL caching.
 
 ## synergy
 
 each plugin works standalone. when multiple are installed, they detect siblings at runtime and coordinate — no configuration needed.
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                                                                     │
-│                                                                     │
-│                                                                     │
-│     ⚜️ praetorian ◄─────────────────────────► 📜 historian          │
-│     context guard                               session memory      │
-│          │                                           │              │
-│          │     compactions include oracle            │              │
-│          │     discoveries when saving               │              │
-│          │                                           │              │
-│          │     historian notes praetorian            │              │
-│          │     will compact research after           │              │
-│          │                                           │              │
-│          └──────────────► 🔮 ◄───────────────────────┘              │
-│                         oracle                                      │
-│                      tool discovery                                 │
-│                                                                     │
-│               oracle notes historian checking                       │
-│               past solutions on errors                              │
-│                                                                     │
-│                                                                     │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                  │
+│     ⚜️ praetorian ◄──────────────────────────► 📜 historian                       │
+│     context guard                                session memory                   │
+│          │                                            │                           │
+│          │     compactions include oracle              │                           │
+│          │     discoveries when saving                 │                           │
+│          │                                            │                           │
+│          │     historian notes praetorian              │                           │
+│          │     will compact research after             │                           │
+│          │                                            │                           │
+│          └───────────────► 🔮 ◄───────────────────────┘                           │
+│                          oracle                                                   │
+│                       tool discovery                                              │
+│                       ╱          ╲                                                │
+│                      ▼            ▼                                               │
+│             ⚔️ gladiator      🏺 vigil ──────────► ⚜️ praetorian                   │
+│             learn & adapt     file recovery          files + context saved         │
+│                  │                │                  together before risky ops      │
+│                  │                │                                                │
+│          historian enriches   vigil quicksaves                                     │
+│          reflection with      protect against                                      │
+│          past solutions       destructive operations                               │
+│                                                                                  │
+└──────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 **enhanced behaviors when siblings are detected:**
@@ -208,6 +240,9 @@ each plugin works standalone. when multiple are installed, they detect siblings 
 | web search    | 📜 historian  | checks history before redundant research    | + praetorian will compact the research findings after            |
 | subagent stop | ⚜️ praetorian | prompts to compact subagent results         | standalone — no sibling interaction                              |
 | task launch   | 📜 historian  | checks tool patterns before agents          | standalone — no sibling interaction                              |
+| error         | ⚔️ gladiator  | observes failure pattern                     | + historian enriches reflection with past solutions              |
+| stop          | ⚔️ gladiator  | prompts reflection on observations          | + historian and oracle deepen analysis during reflection         |
+| bash (destructive) | 🏺 vigil | auto-quicksaves before destructive commands  | + praetorian also preserves context alongside file checkpoints   |
 
 detection is one `fs.readFileSync` call (~1ms). falls back gracefully if settings are missing.
 

@@ -1,0 +1,16 @@
+{
+  "name": "claude-gladiator",
+  "version": "1.0.0",
+  "description": "Continuous learning hooks for gladiator MCP (observe patterns, reflect on them)",
+  "author": { "name": "vvkmnn" },
+  "repository": "https://github.com/Vvkmnn/claude-emporium",
+  "homepage": "https://github.com/Vvkmnn/claude-emporium/tree/main/plugins/claude-gladiator",
+  "license": "MIT",
+  "keywords": ["learning", "patterns", "observation", "continuous-improvement"],
+  "mcpServers": {
+    "gladiator": {
+      "command": "npx",
+      "args": ["claude-gladiator-mcp"]
+    }
+  }
+}

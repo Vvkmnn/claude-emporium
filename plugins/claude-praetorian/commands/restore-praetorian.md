@@ -1,18 +1,18 @@
 ---
-name: praetorian-restore
+name: restore-praetorian
 description: Load previous context from praetorian memory
 arguments: query?
 ---
 
-# /praetorian-restore
+# /restore-praetorian
 
 Load previous work from praetorian memory.
 
 ## Usage
 
-- `/praetorian-restore` - Show recent compactions (last 3-5)
-- `/praetorian-restore auth` - Search for auth-related context
-- `/praetorian-restore "API design"` - Search for specific topic
+- `/restore-praetorian` - Show recent compactions (last 3-5)
+- `/restore-praetorian auth` - Search for auth-related context
+- `/restore-praetorian "API design"` - Search for specific topic
 
 ## Action
 

@@ -37,6 +37,28 @@
       },
       "category": "development",
       "homepage": "https://github.com/Vvkmnn/claude-emporium/tree/main/plugins/claude-oracle"
+    },
+    {
+      "name": "claude-gladiator",
+      "description": "Continuous learning hooks for gladiator MCP (observe patterns, reflect on them)",
+      "version": "1.0.0",
+      "source": "./plugins/claude-gladiator",
+      "author": {
+        "name": "vvkmnn"
+      },
+      "category": "productivity",
+      "homepage": "https://github.com/Vvkmnn/claude-emporium/tree/main/plugins/claude-gladiator"
+    },
+    {
+      "name": "claude-vigil",
+      "description": "File checkpoint and recovery - save snapshots, diff changes, restore safely",
+      "version": "1.0.0",
+      "source": "./plugins/claude-vigil",
+      "author": {
+        "name": "vvkmnn"
+      },
+      "category": "productivity",
+      "homepage": "https://github.com/Vvkmnn/claude-emporium/tree/main/plugins/claude-vigil"
     }
   ]
 }

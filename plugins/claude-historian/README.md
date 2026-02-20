@@ -30,7 +30,7 @@ claude mcp add historian -- npx claude-historian-mcp
 
 | Command | Description |
 |---------|-------------|
-| `/historian-search <query>` | Search past sessions for solutions, decisions, context |
+| `/search-historian <query>` | Search past sessions for solutions, decisions, context |
 
 ## MCP Tools
 

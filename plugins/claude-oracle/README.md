@@ -28,8 +28,7 @@ claude mcp add oracle -- npx claude-oracle-mcp
 
 | Command | Description |
 |---------|-------------|
-| `/oracle-search <query> [type]` | Search for tools across all sources |
-| `/oracle-browse [category] [type]` | Browse tools by category or popularity |
+| `/search-oracle <query> [type]` | Search for tools across all sources |
 
 ## MCP Tools
 
