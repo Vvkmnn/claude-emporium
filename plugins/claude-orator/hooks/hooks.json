@@ -1,0 +1,9 @@
+{
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": "Task",
+      "hooks": [{ "type": "command", "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/pre-task.js" }],
+      "description": "Suggest prompt optimization before launching agents"
+    }]
+  }
+}

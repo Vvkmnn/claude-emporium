@@ -1,0 +1,8 @@
+# local mcp testing
+mcp/
+
+# python cache
+__pycache__/
+
+# dev previews
+logo/preview.html

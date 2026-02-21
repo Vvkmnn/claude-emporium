@@ -38,6 +38,9 @@ const DEFAULTS = {
   'claude-vigil': {
     auto_quicksave: true,
   },
+  'claude-orator': {
+    optimize_subagent_prompts: true,
+  },
 };
 
 /**
@@ -81,6 +84,7 @@ const EMPORIUM_PLUGINS = {
   oracle: 'claude-oracle@claude-emporium',
   gladiator: 'claude-gladiator@claude-emporium',
   vigil: 'claude-vigil@claude-emporium',
+  orator: 'claude-orator@claude-emporium',
 };
 
 /**
@@ -110,6 +114,7 @@ function siblings() {
     oracle: hasSibling('oracle'),
     gladiator: hasSibling('gladiator'),
     vigil: hasSibling('vigil'),
+    orator: hasSibling('orator'),
   };
 }
 

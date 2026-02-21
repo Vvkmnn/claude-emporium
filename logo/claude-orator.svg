@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 108 96" width="220" height="220">
+  <style>
+    .toga-back { animation: back-sway 3s ease-in-out infinite; transform-origin: 16px 37px; }
+    .band-1 { animation: band1-sway 3.2s ease-in-out infinite; }
+    .band-2 { animation: band2-sway 2.9s ease-in-out infinite; }
+    .band-3 { animation: band3-sway 3.6s ease-in-out infinite; }
+    .band-4 { animation: band4-sway 2.5s ease-in-out infinite; }
+    .band-5 { animation: band5-sway 3.1s ease-in-out infinite; }
+    .quill-arm { animation: quill-hold 3s ease-in-out infinite; transform-origin: 92px 48px; }
+    .feather-plume { animation: plume-sway 2.5s ease-in-out infinite; transform-origin: 93px 28px; }
+
+    @keyframes back-sway { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-2.5deg); } }
+    @keyframes band1-sway { 0%, 100% { transform: translateX(0); } 30% { transform: translateX(-0.4px); } 65% { transform: translateX(0.15px); } }
+    @keyframes band2-sway { 0%, 100% { transform: translateX(0); } 35% { transform: translateX(0.3px); } 70% { transform: translateX(-0.1px); } }
+    @keyframes band3-sway { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-0.25px); } 60% { transform: translateX(0.2px); } }
+    @keyframes band4-sway { 0%, 100% { transform: translateX(0); } 40% { transform: translateX(0.35px); } 75% { transform: translateX(-0.15px); } }
+    @keyframes band5-sway { 0%, 100% { transform: translateX(0); } 30% { transform: translateX(-0.2px); } 70% { transform: translateX(0.1px); } }
+    @keyframes quill-hold { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(1deg); } }
+    @keyframes plume-sway { 0%, 100% { transform: rotate(0deg); } 40% { transform: rotate(-2deg); } 80% { transform: rotate(1deg); } }
+  </style>
+
+  <!-- Back toga drape -->
+  <g class="toga-back">
+    <polygon points="16,36 10,36 6,72 8,82 20,82 22,68" fill="#9B1B1B"/>
+    <polygon points="16,36 12,36 8,72 10,78 16,68" fill="#7A1515" opacity="0.7"/>
+  </g>
+
+  <!-- Body -->
+  <rect x="18" y="32" width="64" height="4" fill="#E07C4C"/>
+  <rect x="14" y="36" width="72" height="32" fill="#E07C4C"/>
+
+  <!-- Ears -->
+  <rect x="22" y="18" width="8" height="14" fill="#E07C4C"/>
+  <rect x="70" y="18" width="8" height="14" fill="#E07C4C"/>
+
+  <!-- Legs -->
+  <rect x="24" y="68" width="12" height="14" fill="#E07C4C"/>
+  <rect x="64" y="68" width="12" height="14" fill="#E07C4C"/>
+
+  <!-- Front toga (strap + bands) -->
+  <g class="toga-front">
+    <g class="band-5">
+      <path d="M18,58 Q14,48 12,37 L20,37 Q20,48 34,63 Z" fill="#9B1B1B"/>
+      <path d="M20,58 Q16,48 13,38 L19,38 Q19,48 30,61 Z" fill="#7A1515" opacity="0.4"/>
+      <line x1="24" y1="59" x2="17" y2="39" stroke="#5E1010" stroke-width="0.6" opacity="0.5"/>
+    </g>
+    <g class="band-1"><path d="M12,65 Q38,80 86,69 L86,76 Q40,85 12,73 Z" fill="#5E1010"/></g>
+    <g class="band-2"><path d="M12,62 Q60,75 87,62 L87,69 Q58,79 12,69 Z" fill="#7A1515"/></g>
+    <g class="band-3"><path d="M12,59 Q48,70 87,58 L87,65 Q50,76 12,66 Z" fill="#8B1A1A"/></g>
+    <g class="band-4"><path d="M12,56 Q36,68 87,56 L87,63 Q38,73 12,63 Z" fill="#9B1B1B"/></g>
+    <g class="band-5">
+      <path d="M12,53 Q56,64 87,52 L87,59 Q54,69 12,60 Z" fill="#A52222"/>
+      <path d="M12,53 Q56,64 87,52" stroke="#C03030" stroke-width="0.8" fill="none" opacity="0.5"/>
+    </g>
+  </g>
+
+  <!-- Fibula -->
+  <circle cx="16" cy="37" r="4" fill="#DAA520" stroke="#8B6914" stroke-width="0.6"/>
+
+  <!-- Eyes -->
+  <rect x="34" y="42" width="8" height="10" fill="#000000"/>
+  <rect x="66" y="42" width="8" height="10" fill="#000000"/>
+
+  <!-- Left arm (empty) -->
+  <rect x="2" y="44" width="12" height="8" fill="#E07C4C"/>
+
+  <!-- Right arm + feather -->
+  <g class="quill-arm">
+    <rect x="86" y="44" width="12" height="8" fill="#E07C4C"/>
+
+    <!-- Feather in front of hand, shifted right +2, calamus extends below -->
+    <g class="feather-plume">
+      <!-- Right vane (wider) -->
+      <path d="M93.5,52 C93,42 92,28 89,-4 C95,-1 101,14 101.5,24 C101,38 97.5,46 93.5,52 Z"
+            fill="#F0E6D0"/>
+      <!-- Left vane (narrower) -->
+      <path d="M93.5,52 C93,42 92,28 89,-4 C85.5,0 86,16 86.5,24 C87.5,38 91,46 93.5,52 Z"
+            fill="#E5DAC0"/>
+
+      <!-- Barb texture — right -->
+      <line x1="93" y1="46" x2="99" y2="36" stroke="#D4C8B0" stroke-width="0.4" opacity="0.4"/>
+      <line x1="92.3" y1="36" x2="100" y2="26" stroke="#D4C8B0" stroke-width="0.35" opacity="0.35"/>
+      <line x1="91.5" y1="26" x2="98" y2="14" stroke="#D4C8B0" stroke-width="0.3" opacity="0.3"/>
+      <line x1="90.5" y1="16" x2="94" y2="4" stroke="#D4C8B0" stroke-width="0.3" opacity="0.25"/>
+      <!-- Barb texture — left -->
+      <line x1="93" y1="46" x2="88.5" y2="38" stroke="#C8BCA6" stroke-width="0.35" opacity="0.35"/>
+      <line x1="92.3" y1="36" x2="87" y2="28" stroke="#C8BCA6" stroke-width="0.3" opacity="0.3"/>
+      <line x1="91.5" y1="26" x2="86.5" y2="18" stroke="#C8BCA6" stroke-width="0.3" opacity="0.25"/>
+      <line x1="90.5" y1="16" x2="87.5" y2="8" stroke="#C8BCA6" stroke-width="0.3" opacity="0.2"/>
+
+      <!-- Rachis — full shaft from calamus below hand through vane to tip -->
+      <path d="M94,60 C93.8,56 93.6,52 93.3,46 C92.8,36 91.8,24 90.5,12 L89,-4"
+            fill="none" stroke="#C49860" stroke-width="1.6" stroke-linecap="round"/>
+      <!-- Rachis highlight -->
+      <path d="M93.8,59 C93.6,55 93.4,51 93.1,45 C92.6,34 91.6,22 90.3,10 L88.8,-4"
+            fill="none" stroke="#DAAD70" stroke-width="0.5" opacity="0.5"/>
+    </g>
+  </g>
+</svg>

@@ -59,6 +59,17 @@
       },
       "category": "productivity",
       "homepage": "https://github.com/Vvkmnn/claude-emporium/tree/main/plugins/claude-vigil"
+    },
+    {
+      "name": "claude-orator",
+      "description": "Prompt rhetoric coach — optimize prompts before dispatching subagents",
+      "version": "1.0.0",
+      "source": "./plugins/claude-orator",
+      "author": {
+        "name": "vvkmnn"
+      },
+      "category": "development",
+      "homepage": "https://github.com/Vvkmnn/claude-emporium/tree/main/plugins/claude-orator"
     }
   ]
 }
