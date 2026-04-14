@@ -122,14 +122,20 @@ function siblings() {
 
 /**
  * Read stdin as a promise. Resolves with parsed JSON or null.
+ * Captures hook_event_name for use by emit() to pick the correct schema shape.
  */
+let _hookEventName = null;
 function readStdin() {
   return new Promise((resolve) => {
     let input = '';
     process.stdin.setEncoding('utf8');
     process.stdin.on('data', (chunk) => { input += chunk; });
     process.stdin.on('end', () => {
-      try { resolve(JSON.parse(input)); }
+      try {
+        const data = JSON.parse(input);
+        _hookEventName = data && data.hook_event_name || null;
+        resolve(data);
+      }
       catch { resolve(null); }
     });
     setTimeout(() => { if (!input) resolve(null); }, 100);
@@ -138,13 +144,40 @@ function readStdin() {
 
 /**
  * Emit hook output with additionalContext.
+ * Includes hookEventName from the stdin data parsed by readStdin().
+ *
+ * Only 8 event types support hookSpecificOutput.additionalContext:
+ * PreToolUse, UserPromptSubmit, SessionStart, Setup, SubagentStart,
+ * PostToolUse, PostToolUseFailure, Notification. For all other events
+ * (PreCompact, Stop, SubagentStop, etc.) hookSpecificOutput does not
+ * have a schema branch at all, and the only valid context-injection
+ * path is the universal top-level `systemMessage` field.
+ *
+ * Cross-verified against code.claude.com/docs/en/hooks and the
+ * syncHookResponseSchema discriminated union in Claude Code source
+ * at src/types/hooks.ts:70-163.
  */
+const HSO_EVENTS = new Set([
+  'PreToolUse',
+  'UserPromptSubmit',
+  'SessionStart',
+  'Setup',
+  'SubagentStart',
+  'PostToolUse',
+  'PostToolUseFailure',
+  'Notification',
+]);
 function emit(message) {
-  console.log(JSON.stringify({
-    hookSpecificOutput: {
-      additionalContext: `<system-reminder>${message}</system-reminder>`,
-    },
-  }));
+  const wrapped = `<system-reminder>${message}</system-reminder>`;
+  if (_hookEventName && !HSO_EVENTS.has(_hookEventName)) {
+    console.log(JSON.stringify({ systemMessage: wrapped }));
+    return;
+  }
+  const output = {
+    additionalContext: wrapped,
+  };
+  if (_hookEventName) output.hookEventName = _hookEventName;
+  console.log(JSON.stringify({ hookSpecificOutput: output }));
 }
 
 /**
