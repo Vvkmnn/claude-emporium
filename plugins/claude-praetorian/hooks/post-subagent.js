@@ -31,7 +31,7 @@ const { readStdin, emit, loadSettings } = require('../../shared/utils');
     }
   }
 
-  emit(`⚜️ [claude-praetorian] Subagent completed - compact findings.${context}
+  emit('SubagentStop', `⚜️ [claude-praetorian] Subagent completed - compact findings.${context}
 
 praetorian_compact(type="task_result", title="<what was found>", key_insights=[...], refs=[...])
 Extract: findings, file:line refs, decisions made`);

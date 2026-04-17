@@ -34,7 +34,7 @@ const { readStdin, emit, loadSettings, shouldSuggestSiblings, siblings } = requi
     synergy += '\n⚜️ [claude-praetorian] could restore saved context from prior sessions → /install claude-praetorian@claude-emporium';
   }
 
-  emit(`🔮 [claude-oracle] Before planning, check if relevant tools exist.
+  emit('PreToolUse', `🔮 [claude-oracle] Before planning, check if relevant tools exist.
 
 mcp__claude-oracle-mcp__search(query="${project}", type="all", limit=3)
 

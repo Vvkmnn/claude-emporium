@@ -36,7 +36,7 @@ const { readStdin, emit, loadSettings, siblings } = require('../../shared/utils'
     synergy = '\n⚜️ [claude-praetorian] is active — findings will be compacted automatically after research.';
   }
 
-  emit(`📜 [claude-historian] Before searching the web, check if you've researched this before.
+  emit('PreToolUse', `📜 [claude-historian] Before searching the web, check if you've researched this before.
 
 mcp__claude-historian-mcp__find_similar_queries(query="${query || project}", limit=3)
 

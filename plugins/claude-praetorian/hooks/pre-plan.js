@@ -56,7 +56,7 @@ if (!fs.existsSync(indexPath)) {
       synergy += '\n🔮 [claude-oracle] could discover relevant tools before planning → /install claude-oracle@claude-emporium';
     }
 
-    emit(`⚜️ [claude-praetorian] ${compactions.length} compaction${compactions.length > 1 ? 's' : ''} found for this project:
+    emit('PreToolUse', `⚜️ [claude-praetorian] ${compactions.length} compaction${compactions.length > 1 ? 's' : ''} found for this project:
 ${lines.join('\n')}
 
 Consider praetorian_restore("query") before planning to avoid re-research.${synergy}`);

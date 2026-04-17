@@ -83,7 +83,7 @@ const NOISE_PATTERNS = [
     synergy = '\n📜 [claude-historian] could search past solutions for this error → /install claude-historian@claude-emporium';
   }
 
-  emit(`⚔️ [claude-gladiator] ${tool_name} failed — observe this pattern.
+  emit('PostToolUse', `⚔️ [claude-gladiator] ${tool_name} failed — observe this pattern.
 
 gladiator_observe(
   summary="<describe what failed and how you fixed it>",

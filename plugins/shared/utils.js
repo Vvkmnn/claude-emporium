@@ -137,14 +137,68 @@ function readStdin() {
 }
 
 /**
- * Emit hook output with additionalContext.
+ * Valid Claude Code hook event names. Used to validate the first argument of
+ * emit() and to route output to a schema-valid shape.
  */
-function emit(message) {
-  console.log(JSON.stringify({
-    hookSpecificOutput: {
-      additionalContext: `<system-reminder>${message}</system-reminder>`,
-    },
-  }));
+const HOOK_EVENT_NAMES = new Set([
+  'PreToolUse',
+  'PostToolUse',
+  'UserPromptSubmit',
+  'SessionStart',
+  'SessionEnd',
+  'Stop',
+  'SubagentStop',
+  'PreCompact',
+  'Notification',
+]);
+
+/**
+ * Events whose `hookSpecificOutput` accepts `additionalContext` per the
+ * Claude Code hook schema. PreToolUse is intentionally excluded: its
+ * hookSpecificOutput only supports permissionDecision / permissionDecisionReason.
+ * Emitting additionalContext there fails schema validation and surfaces as
+ * "PreToolUse:<Tool> hook error" in the CLI.
+ */
+const ADDITIONAL_CONTEXT_EVENTS = new Set([
+  'PostToolUse',
+  'UserPromptSubmit',
+  'SessionStart',
+]);
+
+/**
+ * Emit hook output for a given hook event.
+ *
+ * The `hookEventName` field is required inside `hookSpecificOutput` by the
+ * Claude Code hook schema. Previous versions of this helper omitted it and
+ * always used the additionalContext field, which caused PreToolUse hooks to
+ * fail schema validation on every invocation.
+ *
+ * Behaviour per event:
+ *   - Events that accept additionalContext (PostToolUse, UserPromptSubmit,
+ *     SessionStart) receive it inside hookSpecificOutput, wrapped in a
+ *     <system-reminder> tag.
+ *   - All other events (PreToolUse, Stop, PreCompact, ...) receive the
+ *     message via the top-level `systemMessage` field, which is valid for
+ *     every hook event and visible to the user in transcript mode.
+ */
+function emit(hookEventName, message) {
+  if (!HOOK_EVENT_NAMES.has(hookEventName)) {
+    throw new Error(`emit(): unknown hookEventName "${hookEventName}"`);
+  }
+
+  const output = {
+    hookSpecificOutput: {hookEventName},
+  };
+
+  const wrapped = `<system-reminder>${message}</system-reminder>`;
+
+  if (ADDITIONAL_CONTEXT_EVENTS.has(hookEventName)) {
+    output.hookSpecificOutput.additionalContext = wrapped;
+  } else {
+    output.systemMessage = message;
+  }
+
+  console.log(JSON.stringify(output));
 }
 
 /**

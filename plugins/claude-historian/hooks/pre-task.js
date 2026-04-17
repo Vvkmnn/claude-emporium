@@ -33,7 +33,7 @@ const { readStdin, emit, loadSettings } = require('../../shared/utils');
       ? `Task: "${description.substring(0, 40)}..."`
       : `Project: ${project}`;
 
-  emit(`📜 [claude-historian] Before launching agent, check what worked before.
+  emit('PreToolUse', `📜 [claude-historian] Before launching agent, check what worked before.
 
 mcp__claude-historian-mcp__find_tool_patterns(tool_name="${agentType || 'Task'}", limit=5)
 

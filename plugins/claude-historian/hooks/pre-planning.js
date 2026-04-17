@@ -34,7 +34,7 @@ const { readStdin, emit, loadSettings, shouldSuggestSiblings, siblings } = requi
     synergy += '\n🔮 [claude-oracle] could discover relevant tools for this plan → /install claude-oracle@claude-emporium';
   }
 
-  emit(`📜 [claude-historian] Before planning, check for past implementation approaches.
+  emit('PreToolUse', `📜 [claude-historian] Before planning, check for past implementation approaches.
 
 mcp__claude-historian-mcp__search_plans(query="${project}", limit=3)
 

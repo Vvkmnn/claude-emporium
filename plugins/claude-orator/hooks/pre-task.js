@@ -26,7 +26,7 @@ const { readStdin, emit, loadSettings } = require('../../shared/utils');
   const hasVerb = /^(write|create|implement|analyze|extract|find|search|review|fix|debug)\b/i.test(prompt);
   if (hasStructure || hasVerb) process.exit(0);
 
-  emit(`🪶 [claude-orator] Prompt lacks structure and clear intent — consider orator_optimize before dispatching.
+  emit('PreToolUse', `🪶 [claude-orator] Prompt lacks structure and clear intent — consider orator_optimize before dispatching.
 
 mcp__claude-orator-mcp__orator_optimize(prompt="${prompt.substring(0, 80)}...")
 

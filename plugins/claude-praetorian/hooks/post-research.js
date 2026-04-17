@@ -27,7 +27,7 @@ const { readStdin, emit, loadSettings } = require('../../shared/utils');
 
   const hint = hints[tool_name];
   if (hint) {
-    emit(`⚜️ [claude-praetorian] Web research completed - compact findings.
+    emit('PostToolUse', `⚜️ [claude-praetorian] Web research completed - compact findings.
 
 praetorian_compact(type="web_research", title="<topic>", key_insights=[...], refs=[...])
 ${hint}`);

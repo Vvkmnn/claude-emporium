@@ -22,7 +22,7 @@ const { readStdin, emit, loadSettings, siblings } = require('../../shared/utils'
     synergy += '\n🔮 [claude-oracle] is active — include any tool discoveries in the compaction.';
   }
 
-  emit(`⚜️ [claude-praetorian] Context compaction imminent - SAVE NOW.
+  emit('PreCompact', `⚜️ [claude-praetorian] Context compaction imminent - SAVE NOW.
 
 Call praetorian_compact() to preserve valuable work before context resets:
 - type: "decisions" for architectural choices and trade-offs

@@ -52,7 +52,7 @@ const { readStdin, emit, loadSettings, shouldSuggestSiblings, siblings } = requi
     synergy = '\n📜 [claude-historian] could check if this error was solved before → /install claude-historian@claude-emporium';
   }
 
-  emit(`🔮 [claude-oracle] Command failed - search for tools that might help.
+  emit('PostToolUse', `🔮 [claude-oracle] Command failed - search for tools that might help.
 
 mcp__claude-oracle-mcp__search(query="${displayError}", type="all", limit=3)
 

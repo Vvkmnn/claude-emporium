@@ -33,7 +33,7 @@ const DESTRUCTIVE = /\b(rm|rmdir|mv|sed\s+-i|perl\s+-i)\b|git\s+(checkout|reset|
     synergy += '\n⚜️ [claude-praetorian] could save context across compactions → /install claude-praetorian@claude-emporium';
   }
 
-  emit(`🏺 [claude-vigil] destructive command detected — quicksaving before execution.
+  emit('PreToolUse', `🏺 [claude-vigil] destructive command detected — quicksaving before execution.
 
 vigil_save(name: "~quicksave")
 
