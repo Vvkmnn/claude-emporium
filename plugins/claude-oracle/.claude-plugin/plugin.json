@@ -2,9 +2,7 @@
   "name": "claude-oracle",
   "version": "1.0.0",
   "description": "Automatic discovery of skills, plugins, and MCP servers across 17 sources",
-  "author": {
-    "name": "vvkmnn"
-  },
+  "author": "vvkmnn",
   "repository": "https://github.com/Vvkmnn/claude-emporium",
   "homepage": "https://github.com/Vvkmnn/claude-emporium/tree/main/plugins/claude-oracle",
   "license": "MIT",
