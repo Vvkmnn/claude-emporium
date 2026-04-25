@@ -2,9 +2,7 @@
   "name": "claude-praetorian",
   "version": "1.0.0",
   "description": "Automatic context preservation - saves 50-60% tokens across sessions",
-  "author": {
-    "name": "vvkmnn"
-  },
+  "author": "vvkmnn",
   "repository": "https://github.com/Vvkmnn/claude-emporium",
   "homepage": "https://github.com/Vvkmnn/claude-emporium/tree/main/plugins/claude-praetorian",
   "license": "MIT",
