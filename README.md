@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/vvkmnn-claude-emporium-badge.png)](https://mseep.ai/app/vvkmnn-claude-emporium)
+
 <p align="center">
   <a href="https://github.com/Vvkmnn/claude-emporium"><img src="logo/claude-roman.svg" width="300" height="300" alt="roma victrix"></a>
 </p>
